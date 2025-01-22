@@ -1,12 +1,23 @@
-from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
 import os
+import logging
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 from functions import img_predict, get_diseases_classes, get_crop_recommendation, get_fertilizer_recommendation
-from custom_json_encoder import CustomJSONEncoder  # Import the custom encoder
+from custom_json_encoder import CustomJSONEncoder
+
+# Load environment variables
+load_dotenv()
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
-app.json_encoder = CustomJSONEncoder  # Set the custom encoder to handle JSON serialization
-app.config['UPLOAD_FOLDER'] = 'uploads'
+CORS(app)
+app.json_encoder = CustomJSONEncoder
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
 
 @app.route('/predict_crop', methods=['POST'])
 def predict_crop():
@@ -37,4 +48,4 @@ def predict_disease():
         return jsonify({'prediction': result})
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(port=os.getenv('PORT', 5001), debug=os.getenv('DEBUG', True))

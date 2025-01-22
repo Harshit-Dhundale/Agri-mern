@@ -29,7 +29,7 @@ function CropRecommend() {
 
     return (
         <div className="container pt-5">
-            <h1 className="text-center" style="color: #8CE17D;">Crop Recommendation</h1>
+            <h1 className="text-center" style={{color: '#8CE17D'}}>Crop Recommendation</h1>
             <form onSubmit={handleSubmit}>
                 {/* Render inputs similar to the original HTML form */}
                 <input className="form-control" type="number" name="N" value={inputs.nitrogen} onChange={handleChange} placeholder="enter amount of Nitrogen" />
