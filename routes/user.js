@@ -11,7 +11,12 @@ router.post('/register', async (req, res) => {
         await user.save();
         res.status(201).send('User created successfully');
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("MongoDB save error:", error.message);
+        if (error.code === 11000) {
+            res.status(400).json({ message: 'Username or email already exists' });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
     }
 });
 
