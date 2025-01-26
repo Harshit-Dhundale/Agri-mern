@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link, } from 'react-router-dom';
 import './Register.css'; // Ensure you have a corresponding CSS file
 
 const Register = () => {
@@ -9,6 +9,8 @@ const Register = () => {
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate(); 
 
   const { username, email, password } = formData;
 
@@ -26,6 +28,7 @@ const Register = () => {
       const body = JSON.stringify({ username, email, password });
       const res = await axios.post('http://localhost:5000/api/users/register', body, config);
       console.log(res.data);
+      navigate('/dashboard');
       // Redirect or handle the login logic here
     } catch (err) {
       console.error(err.response.data);

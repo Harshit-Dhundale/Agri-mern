@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css'; // Ensure you have a corresponding CSS file
 
 const Login = () => {
@@ -8,6 +8,8 @@ const Login = () => {
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate(); 
 
   const { email, password } = formData;
 
@@ -24,6 +26,7 @@ const Login = () => {
       const body = JSON.stringify({ email, password });
       const res = await axios.post('http://localhost:5000/api/users/login', body, config);
       console.log(res.data);
+      navigate('/dashboard');
       // Redirect or handle the login logic here
     } catch (err) {
       console.error(err.response.data);

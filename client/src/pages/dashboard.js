@@ -1,8 +1,8 @@
 import React from 'react';
 import CropRecommend from './CropRecommend';
 import FertilizerRecommend from './FertilizerRecommend';
-import DiseasePrediction from './DiseasePrediction';
-import ForumPosts from './ForumPosts';
+import DiseasePredictionResult from './DiseasePredictionResult';
+import Forum from './Forum';
 
 const Dashboard = () => {
   // Assume userData and farmData are fetched from the API
@@ -29,11 +29,11 @@ const Dashboard = () => {
       </section>
       <section>
         <h2>Disease Predictions</h2>
-        <DiseasePrediction />
+        <DiseasePredictionResult />
       </section>
       <section>
         <h2>Forum Posts</h2>
-        <ForumPosts />
+        <Forum />
       </section>
     </div>
   );
