@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddCrop = () => {
+const Crops = () => {
     const [formData, setFormData] = useState({
         nitrogen: '',
         phosphorous: '',
@@ -12,6 +12,7 @@ const AddCrop = () => {
         rainfall: ''
     });
 
+    // Destructure formData to use in the component
     const { nitrogen, phosphorous, potassium, soilTemperature, soilHumidity, soilPh, rainfall } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,9 +20,11 @@ const AddCrop = () => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
+            const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage after login
             const config = {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  // Add this line to include the token in the request headers
                 }
             };
             const body = JSON.stringify(formData);
@@ -31,6 +34,7 @@ const AddCrop = () => {
             console.error(err.response.data);
         }
     };
+    
 
     return (
         <form onSubmit={onSubmit}>
@@ -40,10 +44,10 @@ const AddCrop = () => {
             <input type="number" name="soilTemperature" value={soilTemperature} onChange={onChange} placeholder="Soil Temperature" />
             <input type="number" name="soilHumidity" value={soilHumidity} onChange={onChange} placeholder="Soil Humidity" />
             <input type="number" name="soilPh" value={soilPh} onChange={onChange} placeholder="Soil Ph" />
-            <input type="number" name="rainfall" value={rainfall} onChange={onChange} placeholder="Amount of RainFall" />
+            <input type="number" name="rainfall" value={rainfall} onChange={onChange} placeholder="Amount of Rainfall" />
             <button type="submit">Submit</button>
         </form>
     );
 };
 
-export default AddCrop;
+export default Crops;

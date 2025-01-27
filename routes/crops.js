@@ -1,9 +1,14 @@
 const express = require('express');
 const Crop = require('../models/Crop');
 const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 // POST route to add a new crop data entry
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({ error: "Unauthorized: No user authenticated" });
+    }
     const { nitrogen, phosphorous, potassium, soilTemperature, soilHumidity, soilPh, rainfall } = req.body;
     try {
         const newCrop = new Crop({

@@ -20,7 +20,7 @@ const diseaseRoutes = require('./routes/disease');
 
 // Use routes
 app.use('/api/users', userRoutes);
-app.use('/api/crop', cropRoutes);
+app.use('/api/crops', cropRoutes);
 app.use('/api/fertilizers', fertilizerRoutes);
 app.use('/api/diseases', diseaseRoutes);
 

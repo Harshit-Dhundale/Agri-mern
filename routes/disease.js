@@ -1,6 +1,8 @@
 const express = require('express');
 const Disease = require('../models/Disease');
 const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 // POST route to add a new disease data entry
 router.post('/', async (req, res) => {

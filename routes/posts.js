@@ -1,6 +1,8 @@
 const express = require('express');
 const Post = require('../models/Post');
 const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 // POST route to create a new forum post
 router.post('/', async (req, res) => {

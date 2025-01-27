@@ -11,6 +11,7 @@ const Login = () => {
 
   const navigate = useNavigate(); 
 
+  // Destructure email and password from formData
   const { email, password } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,8 +27,7 @@ const Login = () => {
       const body = JSON.stringify({ email, password });
       const res = await axios.post('http://localhost:5000/api/users/login', body, config);
       console.log(res.data);
-      navigate('/dashboard');
-      // Redirect or handle the login logic here
+      navigate('/dashboard'); // Navigate to dashboard on successful login
     } catch (err) {
       console.error(err.response.data);
     }

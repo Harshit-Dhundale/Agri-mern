@@ -1,6 +1,8 @@
 const express = require('express');
 const Fertilizer = require('../models/Fertilizer');
 const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 // POST route to add a new fertilizer data entry
 router.post('/', async (req, res) => {
