@@ -2,18 +2,20 @@ const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const authMiddleware = require('../middleware/authMiddleware');
+const { validateUserRegistration, validateUserLogin } = require('../validators/userValidator');
+const handleValidationErrors = require('../middleware/errorHandler');
 
-
-// Register new user
-router.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
+// Registration with validation
+router.post('/register', 
+  validateUserRegistration,
+  handleValidationErrors,
+  async (req, res) => {
     try {
-        const user = new User({ username, email, password });
+        const user = new User(req.body);
         await user.save();
-        res.status(201).send('User created successfully');
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(201).json({ token });
     } catch (error) {
-        console.error("MongoDB save error:", error.message);
         if (error.code === 11000) {
             res.status(400).json({ message: 'Username or email already exists' });
         } else {
@@ -22,19 +24,17 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login user
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+// Login with validation
+router.post('/login', 
+  validateUserLogin,
+  handleValidationErrors,
+  async (req, res) => {
     try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+        const user = await User.findOne({ email: req.body.email });
+        if (!user || !(await user.comparePassword(req.body.password))) {
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-        const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
         res.status(500).json({ message: error.message });

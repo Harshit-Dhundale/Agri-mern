@@ -2,13 +2,21 @@ const express = require('express');
 const Post = require('../models/Post');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const { validatePost, validateReply } = require('../validators/postValidator');
+const handleValidationErrors = require('../middleware/errorHandler');
 
-
-// POST route to create a new forum post
-router.post('/', async (req, res) => {
-    const { title, content, createdBy } = req.body;
+// Create post with validation
+router.post('/', 
+  authMiddleware,
+  validatePost,
+  handleValidationErrors,
+  async (req, res) => {
     try {
-        const newPost = new Post({ title, content, createdBy });
+        const newPost = new Post({
+            title: req.body.title,
+            content: req.body.content,
+            createdBy: req.user._id
+        });
         await newPost.save();
         res.status(201).json(newPost);
     } catch (error) {
@@ -16,22 +24,33 @@ router.post('/', async (req, res) => {
     }
 });
 
-// GET route to fetch all forum posts
+// Get posts with pagination
 router.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     try {
-        const posts = await Post.find().populate('createdBy', 'username');
+        const posts = await Post.find()
+            .populate('createdBy', 'username')
+            .skip((page - 1) * limit)
+            .limit(limit);
         res.json(posts);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// POST route to add a reply to a post
-router.post('/:postId/replies', async (req, res) => {
-    const { text, createdBy } = req.body;
+// Add reply with validation
+router.post('/:postId/replies', 
+  authMiddleware,
+  validateReply,
+  handleValidationErrors,
+  async (req, res) => {
     try {
         const post = await Post.findById(req.params.postId);
-        post.replies.push({ text, createdBy });
+        post.replies.push({
+            text: req.body.text,
+            createdBy: req.user._id
+        });
         await post.save();
         res.status(201).json(post);
     } catch (error) {

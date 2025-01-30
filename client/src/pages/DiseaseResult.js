@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const DiseasePredictionResult = () => {
+const DiseaseResult = () => {
   const location = useLocation();
   const { result, imageFileName } = location.state || { result: 'No Result', imageFileName: 'default.png' };
 
@@ -28,4 +28,4 @@ const DiseasePredictionResult = () => {
   );
 };
 
-export default DiseasePredictionResult;
+export default DiseaseResult;

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const diseaseSchema = new mongoose.Schema({
-    crop: String,
-    imageUrl: String,
+    crop: { type: String, required: true },
+    imageUrl: { type: String, required: true },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

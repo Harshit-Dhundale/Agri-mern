@@ -2,22 +2,19 @@ const express = require('express');
 const Fertilizer = require('../models/Fertilizer');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const { validateFertilizer } = require('../validators/fertilizerValidator');
+const handleValidationErrors = require('../middleware/errorHandler');
 
-
-// POST route to add a new fertilizer data entry
-router.post('/', async (req, res) => {
-    const { soilTemperature, soilHumidity, soilMoisture, nitrogen, phosphorous, potassium, soilType, cropType } = req.body;
+// POST route with validation
+router.post('/', 
+  authMiddleware,
+  validateFertilizer,
+  handleValidationErrors,
+  async (req, res) => {
     try {
         const newFertilizer = new Fertilizer({
-            soilTemperature,
-            soilHumidity,
-            soilMoisture,
-            nitrogen,
-            phosphorous,
-            potassium,
-            soilType,
-            cropType,
-            createdBy: req.user._id // assuming you have user authentication setup
+            ...req.body,
+            createdBy: req.user._id
         });
         await newFertilizer.save();
         res.status(201).json(newFertilizer);
@@ -26,10 +23,14 @@ router.post('/', async (req, res) => {
     }
 });
 
-// GET route to fetch all fertilizer data entries
+// GET route with pagination
 router.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     try {
-        const fertilizers = await Fertilizer.find();
+        const fertilizers = await Fertilizer.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
         res.json(fertilizers);
     } catch (error) {
         res.status(500).json({ error: error.message });

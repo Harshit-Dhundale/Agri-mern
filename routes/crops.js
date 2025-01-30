@@ -2,13 +2,16 @@ const express = require('express');
 const Crop = require('../models/Crop');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const { validateCrop } = require('../validators/cropValidator');
+const handleValidationErrors = require('../middleware/errorHandler');
+const axios = require('axios');
 
-
-// POST route to add a new crop data entry
-router.post('/', authMiddleware, async (req, res) => {
-    if (!req.user) {
-        return res.status(403).json({ error: "Unauthorized: No user authenticated" });
-    }
+// POST route with validation
+router.post('/', 
+  authMiddleware, 
+  validateCrop,
+  handleValidationErrors,
+  async (req, res) => {
     const { nitrogen, phosphorous, potassium, soilTemperature, soilHumidity, soilPh, rainfall } = req.body;
     try {
         const newCrop = new Crop({
@@ -19,7 +22,7 @@ router.post('/', authMiddleware, async (req, res) => {
             soilHumidity,
             soilPh,
             rainfall,
-            createdBy: req.user._id // assuming you have user authentication setup
+            createdBy: req.user._id
         });
         await newCrop.save();
         res.status(201).json(newCrop);
@@ -28,13 +31,34 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 });
 
-// GET route to fetch all crop data entries
+// GET route with pagination
 router.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     try {
-        const crops = await Crop.find();
+        const crops = await Crop.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
         res.json(crops);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+// Prediction endpoint
+router.post('/predict_crop', 
+  authMiddleware,
+  validateCrop,
+  handleValidationErrors,
+  async (req, res) => {
+    try {
+        const pythonResponse = await axios.post('http://localhost:5001/predict', req.body);
+        res.json(pythonResponse.data);
+    } catch (error) {
+        res.status(500).json({ 
+            error: "Prediction failed", 
+            details: error.message 
+        });
     }
 });
 

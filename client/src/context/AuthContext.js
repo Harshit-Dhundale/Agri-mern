@@ -8,13 +8,18 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(() => {
+        const token = localStorage.getItem('token');
+        return token ? { token } : null;
+    });
 
-    const login = (userData) => {
-        setCurrentUser(userData);
+    const login = (token) => {
+        localStorage.setItem('token', token);
+        setCurrentUser({ token });
     };
 
     const logout = () => {
+        localStorage.removeItem('token');
         setCurrentUser(null);
     };
 

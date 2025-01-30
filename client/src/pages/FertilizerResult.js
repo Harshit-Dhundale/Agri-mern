@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const RecommendResult = () => {
+const FertilizerResult = () => {
   const location = useLocation();
   const { result } = location.state || { result: 'No Result' };
 
@@ -22,4 +22,4 @@ const RecommendResult = () => {
   );
 };
 
-export default RecommendResult;
+export default FertilizerResult;

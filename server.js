@@ -1,30 +1,46 @@
-const express = require('express'); 
+const express = require('express');
 require("dotenv").config();
 const cors = require('cors');
 const axios = require('axios');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./config/db');
 
-
-
+// Initialize Express app
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+// Rate Limiting Configuration
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
+// Apply Middleware
+app.use(cors({
+    origin: 'http://localhost:3000', // React app's origin
+    credentials: true
+}));
+app.use(express.json()); // Parse JSON bodies
+app.use(mongoSanitize()); // Sanitize user inputs to prevent NoSQL injection
+app.use(limiter); // Apply rate limiting to all routes
+
+// Connect to MongoDB
 connectDB();
 
-// Import routes
+// Import Routes
 const userRoutes = require('./routes/user');
 const cropRoutes = require('./routes/crops');
 const fertilizerRoutes = require('./routes/fertilizer');
 const diseaseRoutes = require('./routes/disease');
 
-// Use routes
+// Use Routes
 app.use('/api/users', userRoutes);
 app.use('/api/crops', cropRoutes);
 app.use('/api/fertilizers', fertilizerRoutes);
 app.use('/api/diseases', diseaseRoutes);
 
-// API endpoints for interacting with the Python services
+// API Endpoints for Interacting with Python Services
 app.post('/api/predict_crop', async (req, res) => {
     try {
         const response = await axios.post('http://127.0.0.1:5001/predict_crop', req.body);
@@ -43,8 +59,9 @@ app.post('/api/predict_fertilizer', async (req, res) => {
     }
 });
 
+// File Upload Configuration for Disease Prediction
 const multer = require('multer');
-const fs = require('fs'); // Make sure to require fs
+const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
 
@@ -52,7 +69,7 @@ const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/predict_disease', upload.single('file'), async (req, res) => {
     const file = req.file;
-    const crop = req.body.crop;  // Assuming 'crop' is also sent as part of the form data
+    const crop = req.body.crop; // Assuming 'crop' is sent as part of the form data
 
     if (!file) {
         return res.status(400).send('No file uploaded.');
@@ -76,7 +93,13 @@ app.post('/api/predict_disease', upload.single('file'), async (req, res) => {
     }
 });
 
+// Centralized Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
 
+// Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

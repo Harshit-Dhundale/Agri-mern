@@ -11,11 +11,11 @@ import PostDetails from "./pages/PostDetails";
 import Crops from "./pages/Crops";
 import Disease from "./pages/Disease";
 import Fertilizer from "./pages/Fertilizer";
-import CropDisease from "./pages/CropDisease";
+import CropDisease from "./pages/DiseaseDetection";
 import CropRecommend from "./pages/CropRecommend";
 import FertilizerRecommend from "./pages/FertilizerRecommend";
-import DiseasePredictionResult from "./pages/DiseasePredictionResult";
-import RecommendResult from "./pages/RecommendResult";
+import DiseasePredictionResult from "./pages/DiseaseResult";
+import RecommendResult from "./pages/FertilizerResult";
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 

@@ -7,11 +7,26 @@ const replySchema = new mongoose.Schema({
 });
 
 const postSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    title: { 
+        type: String, 
+        required: true, 
+        minlength: 5 // Title must be at least 5 characters long
+    },
+    content: { 
+        type: String, 
+        required: true, 
+        minlength: 10 // Content must be at least 10 characters long
+    },
+    createdBy: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true // createdBy is required and references a User
+    },
     replies: [replySchema],
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
+    }
 });
 
 const Post = mongoose.model('Post', postSchema);

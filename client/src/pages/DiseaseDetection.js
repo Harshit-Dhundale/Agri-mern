@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const CropDisease = () => {
+const DiseaseDetection = () => {
   const [selectedCrop, setSelectedCrop] = useState('');
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState('');
@@ -63,4 +63,4 @@ const CropDisease = () => {
   );
 };
 
-export default CropDisease;
+export default DiseaseDetection;

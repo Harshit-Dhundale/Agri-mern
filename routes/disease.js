@@ -2,16 +2,20 @@ const express = require('express');
 const Disease = require('../models/Disease');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const { validateDisease } = require('../validators/diseaseValidator');
+const handleValidationErrors = require('../middleware/errorHandler');
 
-
-// POST route to add a new disease data entry
-router.post('/', async (req, res) => {
-    const { crop, imageUrl } = req.body;
+// POST route with validation
+router.post('/', 
+  authMiddleware,
+  validateDisease,
+  handleValidationErrors,
+  async (req, res) => {
     try {
         const newDisease = new Disease({
-            crop,
-            imageUrl,
-            createdBy: req.user._id // assuming you have user authentication setup
+            crop: req.body.crop,
+            imageUrl: req.body.imageUrl,
+            createdBy: req.user._id
         });
         await newDisease.save();
         res.status(201).json(newDisease);
@@ -20,10 +24,14 @@ router.post('/', async (req, res) => {
     }
 });
 
-// GET route to fetch all disease data entries
+// GET route with pagination
 router.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     try {
-        const diseases = await Disease.find();
+        const diseases = await Disease.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
         res.json(diseases);
     } catch (error) {
         res.status(500).json({ error: error.message });
