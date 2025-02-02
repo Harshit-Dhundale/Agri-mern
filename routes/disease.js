@@ -2,7 +2,7 @@ const express = require('express');
 const Disease = require('../models/Disease');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
-const { validateDisease } = require('../validators/diseaseValidator');
+const validateDisease = require('../validators/diseaseValidator');
 const handleValidationErrors = require('../middleware/errorHandler');
 
 // POST route with validation

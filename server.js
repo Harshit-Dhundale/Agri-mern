@@ -5,9 +5,11 @@ const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./config/db');
-
+const postsRouter = require('./routes/posts');
 // Initialize Express app
 const app = express();
+
+app.set('trust proxy', process.env.NODE_ENV === 'production' ? 2 : 1);
 
 // Rate Limiting Configuration
 const limiter = rateLimit({
@@ -21,6 +23,14 @@ app.use(cors({
     origin: 'http://localhost:3000', // React app's origin
     credentials: true
 }));
+// Add after creating Express app
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
 app.use(express.json()); // Parse JSON bodies
 app.use(mongoSanitize()); // Sanitize user inputs to prevent NoSQL injection
 app.use(limiter); // Apply rate limiting to all routes
@@ -39,6 +49,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/crops', cropRoutes);
 app.use('/api/fertilizers', fertilizerRoutes);
 app.use('/api/diseases', diseaseRoutes);
+app.use('/api/posts', postsRouter);
 
 // API Endpoints for Interacting with Python Services
 app.post('/api/predict_crop', async (req, res) => {

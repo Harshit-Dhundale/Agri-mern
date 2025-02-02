@@ -1,0 +1,46 @@
+/* shared-styles.css */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --background-light: #f8f9fa;
+    --text-dark: #2c3e50;
+  }
+  
+  .page-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .styled-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .primary-button {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .primary-button:hover {
+    background: var(--secondary-color);
+  }
+  
+  .result-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    text-align: center;
+  }

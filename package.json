@@ -19,6 +19,8 @@
     "crypto-browserify": "^3.12.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.2.1",
     "https-browserify": "^1.0.0",
     "jquery": "^3.7.1",

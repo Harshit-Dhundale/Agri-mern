@@ -2,9 +2,10 @@ const express = require('express');
 const Crop = require('../models/Crop');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
-const { validateCrop } = require('../validators/cropValidator');
+const validateCrop = require('../validators/cropValidator');
 const handleValidationErrors = require('../middleware/errorHandler');
 const axios = require('axios');
+
 
 // POST route with validation
 router.post('/', 

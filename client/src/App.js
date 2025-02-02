@@ -1,59 +1,56 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-
-// Pages
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Forum from "./pages/Forum";
-import PostDetails from "./pages/PostDetails";
-import Crops from "./pages/Crops";
-import Disease from "./pages/Disease";
-import Fertilizer from "./pages/Fertilizer";
-import CropDisease from "./pages/DiseaseDetection";
-import CropRecommend from "./pages/CropRecommend";
-import FertilizerRecommend from "./pages/FertilizerRecommend";
-import DiseasePredictionResult from "./pages/DiseaseResult";
-import RecommendResult from "./pages/FertilizerResult";
-import Dashboard from './pages/Dashboard';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import MainLayout from './layouts/MainLayout';
+import AuthLayout from './layouts/AuthLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Styling for carousel
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-// Context for authentication
-import { AuthProvider } from './context/AuthContext';
+// Feature Imports
+import Home from './features/home/Home';
+import Login from './features/auth/Login';
+import Register from './features/auth/Register';
+import CropRecommend from './features/crops/CropRecommend';
+import CropResult from './features/crops/CropResult';
+import FertilizerRecommend from './features/fertilizers/FertilizerRecommend';
+import FertilizerResult from './features/fertilizers/FertilizerResult';
+import DiseaseDetection from './features/diseases/DiseaseDetection';
+import DiseaseResult from './features/diseases/DiseaseResult';
+import Forum from './features/forum/Forum';
+import PostDetails from './features/forum/PostDetails';
+import Dashboard from './features/dashboard/Dashboard';
 
 function App() {
-  const isAuthenticated = true;  // This should be dynamically set based on your auth logic
-
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/crops" element={<Crops />} />
-          <Route path="/fertilizer" element={<Fertilizer />} />
-          <Route path="/disease" element={<Disease />} />
-          <Route path="/forum" element={<Forum />} />
-          <Route path="/forum/:postId" element={<PostDetails />} />
-          <Route path="/crop-disease" element={<CropDisease />} />
-          <Route path="/crop-recommendation" element={<CropRecommend />} />
-          <Route path="/fertilizer-recommendation" element={<FertilizerRecommend />} />
-          <Route path="/disease-prediction-result" element={<DiseasePredictionResult />} />
-          <Route path="/recommend-result" element={<RecommendResult />} />
-          {/* Protected Route */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            {/* Public Routes */}
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
+
+            {/* Main Layout Routes */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/forum" element={<Forum />} />
+              <Route path="/forum/:postId" element={<PostDetails />} />
+
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/crop-recommendation" element={<CropRecommend />} />
+                <Route path="/crop-result" element={<CropResult />} /> 
+                <Route path="/fertilizer-recommendation" element={<FertilizerRecommend />} />
+                <Route path="/fertilizer-result" element={<FertilizerResult />} />
+                <Route path="/disease-detection" element={<DiseaseDetection />} />
+                <Route path="/disease-result" element={<DiseaseResult />} />
+              </Route>
+            </Route>
+          </Routes>
+        </ErrorBoundary>
       </Router>
     </AuthProvider>
   );

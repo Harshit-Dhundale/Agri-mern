@@ -2,7 +2,7 @@ const express = require('express');
 const Fertilizer = require('../models/Fertilizer');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
-const { validateFertilizer } = require('../validators/fertilizerValidator');
+const validateFertilizer = require('../validators/fertilizerValidator');
 const handleValidationErrors = require('../middleware/errorHandler');
 
 // POST route with validation
