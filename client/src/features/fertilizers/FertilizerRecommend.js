@@ -75,6 +75,16 @@ const FertilizerRecommend = () => {
 
     try {
       const response = await fertilizerAPI.predict(payload);
+      await fertilizerAPI.createFertilizerData({
+        soilTemperature: temperature,
+        soilHumidity: humidity,
+        soilMoisture: moisture,
+        nitrogen: nitrogen,
+        phosphorous: phosphorus, // Match schema spelling
+        potassium: potassium,
+        soilType: formData.soilType,
+        cropType: formData.cropType
+      });
       // If response.data is a string, use it directly.
       const recommendation =
         typeof response.data === 'string'

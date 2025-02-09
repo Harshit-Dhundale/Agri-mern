@@ -19,6 +19,7 @@ router.post('/',
         await newFertilizer.save();
         res.status(201).json(newFertilizer);
     } catch (error) {
+        console.error('Fertilizer Save Error:', error.errors); // 🚨 Log Mongoose errors
         res.status(400).json({ error: error.message });
     }
 });

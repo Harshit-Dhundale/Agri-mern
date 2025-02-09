@@ -32,34 +32,44 @@ api.interceptors.response.use(
   }
 );
 
-// API Endpoints
+// Authentication API
 export const authAPI = {
   login: (credentials) => api.post('/users/login', credentials),
   register: (userData) => api.post('/users/register', userData),
 };
 
+// Crop API
 export const cropAPI = {
   predict: (data) => api.post('/predict_crop', data, {
     headers: {
       'Content-Type': 'application/json'
     }
   }),
+  createCropData: (data) => api.post('/crops', data), // ✅ New method added
 };
 
+// Fertilizer API
 export const fertilizerAPI = {
   predict: (data) => api.post('/predict_fertilizer', data, {
     headers: {
       'Content-Type': 'application/json'
     }
   }),
+  createFertilizerData: (data) => api.post('/fertilizers', data), // ✅ New method added
 };
 
 export const diseaseAPI = {
-  predict: (formData) => api.post('/predict_disease', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  }),
+  predict: (formData) =>
+    api.post('/predict_disease', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  create: (formData) =>
+    api.post('/diseases', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
 };
 
+// Forum API
 export const forumAPI = {
   getPosts: (page = 1) => api.get(`/posts?page=${page}`),
   getPost: (id) => api.get(`/posts/${id}`),
@@ -67,18 +77,21 @@ export const forumAPI = {
   addReply: (postId, data) => api.post(`/posts/${postId}/replies`, data)
 };
 
+// User API
 export const userAPI = {
   get: (userId) => api.get(`/users/${userId}`),
   update: (userId, data) => api.put(`/users/${userId}`, data),
 };
 
+// Farm API
 export const farmAPI = {
   get: (userId) => api.get(`/farms/${userId}`),
   create: (data) => api.post('/farms', data),
   update: (farmId, data) => api.put(`/farms/${farmId}`, data),
 };
 
+// Prediction API
 export const predictionAPI = {
-  getRecent: (userId) => api.get(`/predictions/recent/${userId}`),
-  getHistory: (userId) => api.get(`/predictions/history/${userId}`)
+  create: (data) => api.post('/predictions', data),
+  getHistory: () => api.get('/predictions/history')
 };

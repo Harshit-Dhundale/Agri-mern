@@ -37,7 +37,7 @@ export const validateRegistration = (formData) => {
 export const validateCropInputs = (values) => {
   const errors = {};
   const numberFields = [
-    'nitrogen', 'phosphorus', 'potassium',
+    'nitrogen', 'phosphorous', 'potassium',
     'temperature', 'humidity', 'ph', 'rainfall'
   ];
 

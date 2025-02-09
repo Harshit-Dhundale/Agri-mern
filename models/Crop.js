@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const cropSchema = new mongoose.Schema({
     nitrogen: Number,
-    phosphorous: Number,
+    phosphorus: Number,
     potassium: Number,
     soilTemperature: Number,
     soilHumidity: Number,

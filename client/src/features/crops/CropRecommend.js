@@ -62,6 +62,15 @@ const CropRecommend = () => {
       
         try {
           const response = await cropAPI.predict(payload);
+          await cropAPI.createCropData({
+            nitrogen: numericPayload.nitrogen,
+            phosphorous: numericPayload.phosphorus, // Match schema spelling
+            potassium: numericPayload.potassium,
+            soilTemperature: numericPayload.temperature,
+            soilHumidity: numericPayload.humidity,
+            soilPh: numericPayload.ph,
+            rainfall: numericPayload.rainfall
+          });
           const result = response.data.prediction || response.data;
           navigate('/crop-result', { state: { result } });
         } catch (err) {
