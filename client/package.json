@@ -9,6 +9,7 @@
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "cors": "^2.8.5",
+    "country-state-city": "^3.2.1",
     "cra-template": "1.2.0",
     "crypto-browserify": "^3.12.1",
     "express-validator": "^7.2.1",

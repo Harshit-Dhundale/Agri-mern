@@ -5,7 +5,7 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import "./Login.css";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,8 +24,6 @@ const Login = () => {
     try {
       const { data } = await authAPI.login(formData);
       localStorage.setItem("token", data.token);
-
-      // Force reload to reflect auth changes
       window.location.replace("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");
@@ -42,14 +40,13 @@ const Login = () => {
           <h2>Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Email</label>
+              <label>Email or Username</label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="identifier"
+                value={formData.identifier}
                 onChange={handleChange}
                 required
-                autoComplete="email"
               />
             </div>
             
@@ -61,7 +58,6 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                autoComplete="current-password"
               />
             </div>
 

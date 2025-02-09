@@ -75,34 +75,31 @@ const FertilizerRecommend = () => {
 
     try {
       const response = await fertilizerAPI.predict(payload);
-      await fertilizerAPI.createFertilizerData({
-        soilTemperature: temperature,
-        soilHumidity: humidity,
-        soilMoisture: moisture,
-        nitrogen: nitrogen,
-        phosphorous: phosphorus, // Match schema spelling
-        potassium: potassium,
-        soilType: formData.soilType,
-        cropType: formData.cropType
-      });
-      // If response.data is a string, use it directly.
       const recommendation =
-        typeof response.data === 'string'
-          ? response.data
-          : response.data.recommendation;
-      navigate('/fertilizer-result', {
-        state: {
-          result: recommendation,
-          // If needed, pass confidence as well:
-          confidence: response.data.confidence
-        }
+          typeof response.data === 'string'
+              ? response.data
+              : response.data.recommendation;
+  
+      await fertilizerAPI.createFertilizerData({
+          soilTemperature: temperature,
+          soilHumidity: humidity,
+          soilMoisture: moisture,
+          nitrogen,
+          phosphorous: phosphorus,
+          potassium,
+          soilType: formData.soilType,
+          cropType: formData.cropType,
+          recommendation // Add the recommendation here
       });
-    } catch (err) {
-      console.error('Full fertilizer error:', err);
+  
+      navigate('/fertilizer-result', {
+          state: { result: recommendation }
+      });
+  } catch (err) {
       setError(err.response?.data?.message || err.message);
-    } finally {
+  } finally {
       setLoading(false);
-    }
+  }
   };
 
   return (

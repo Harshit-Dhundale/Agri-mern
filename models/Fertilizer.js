@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
 
 const fertilizerSchema = new mongoose.Schema({
-    soilTemperature: { type: Number, required: true },  // Example of required field
-    soilHumidity: { type: Number, required: true },     // Example of required field
-    soilMoisture: { type: Number, required: true },     // Example of required field
-    nitrogen: { type: Number, required: true },         // Example of required field
-    phosphorous: { type: Number, required: true },      // Example of required field
-    potassium: { type: Number, required: true },        // Example of required field
-    soilType: { type: String, required: true },         // Example of required field
-    cropType: { type: String, required: true },         // Example of required field
+    soilTemperature: { type: Number, required: true },
+    soilHumidity: { type: Number, required: true },
+    soilMoisture: { type: Number, required: true },
+    nitrogen: { type: Number, required: true },
+    phosphorous: { type: Number, required: true },
+    potassium: { type: Number, required: true },
+    soilType: { type: String, required: true },
+    cropType: { type: String, required: true },
+    recommendation: String, // New field for storing recommendation
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true // Ensure createdBy is also required
+        required: true
     }
 }, { timestamps: true });
 

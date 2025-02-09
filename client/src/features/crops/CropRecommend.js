@@ -25,61 +25,66 @@ const CropRecommend = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-      
-        // Convert inputs to numbers
-        const numericPayload = {
-          nitrogen: parseFloat(inputs.nitrogen),
-          phosphorus: parseFloat(inputs.phosphorus),
-          potassium: parseFloat(inputs.potassium),
-          temperature: parseFloat(inputs.temperature),
-          humidity: parseFloat(inputs.humidity),
-          ph: parseFloat(inputs.ph),
-          rainfall: parseFloat(inputs.rainfall)
-        };
-      
-        console.log('Numeric Payload:', numericPayload); // Debug
-      
-        // Validate that all inputs are numbers
-        if (Object.values(numericPayload).some(val => isNaN(val))) {
-          setLoading(false);
-          return setError('Please enter valid numbers in all fields');
-        }
-      
-        const payload = {
-          features: [
-            numericPayload.nitrogen,
-            numericPayload.phosphorus,
-            numericPayload.potassium,
-            numericPayload.temperature,
-            numericPayload.humidity,
-            numericPayload.ph,
-            numericPayload.rainfall
-          ]
-        };
-      
-        try {
-          const response = await cropAPI.predict(payload);
-          await cropAPI.createCropData({
-            nitrogen: numericPayload.nitrogen,
-            phosphorous: numericPayload.phosphorus, // Match schema spelling
-            potassium: numericPayload.potassium,
-            soilTemperature: numericPayload.temperature,
-            soilHumidity: numericPayload.humidity,
-            soilPh: numericPayload.ph,
-            rainfall: numericPayload.rainfall
-          });
-          const result = response.data.prediction || response.data;
-          navigate('/crop-result', { state: { result } });
-        } catch (err) {
-          console.error('Full error object:', err);
-          setError(err.response?.data?.message || err.message);
-        } finally {
-          setLoading(false);
-        }
+      e.preventDefault();
+      setLoading(true);
+      setError('');
+  
+      // Convert inputs to numbers
+      const numericPayload = {
+        nitrogen: parseFloat(inputs.nitrogen),
+        phosphorus: parseFloat(inputs.phosphorus),  // Use the correct field name here
+        potassium: parseFloat(inputs.potassium),
+        temperature: parseFloat(inputs.temperature),
+        humidity: parseFloat(inputs.humidity),
+        ph: parseFloat(inputs.ph),
+        rainfall: parseFloat(inputs.rainfall)
       };
+  
+      console.log('Numeric Payload:', numericPayload); // Debug
+  
+      // Validate that all inputs are numbers
+      if (Object.values(numericPayload).some(val => isNaN(val))) {
+        setLoading(false);
+        return setError('Please enter valid numbers in all fields');
+      }
+  
+      // Build the payload for the Python service
+      const payload = {
+        features: [
+          numericPayload.nitrogen,
+          numericPayload.phosphorus,
+          numericPayload.potassium,
+          numericPayload.temperature,
+          numericPayload.humidity,
+          numericPayload.ph,
+          numericPayload.rainfall
+        ]
+      };
+  
+      try {
+        const response = await cropAPI.predict(payload);
+        const recommendation = response.data.prediction || response.data;
+  
+        // Save crop data (including recommendation) to MongoDB
+        await cropAPI.createCropData({
+          nitrogen: numericPayload.nitrogen,
+          phosphorus: numericPayload.phosphorus, // Correct field name
+          potassium: numericPayload.potassium,
+          soilTemperature: numericPayload.temperature,
+          soilHumidity: numericPayload.humidity,
+          soilPh: numericPayload.ph,
+          rainfall: numericPayload.rainfall,
+          recommendation  // Include the recommendation
+        });
+  
+        navigate('/crop-result', { state: { result: recommendation } });
+      } catch (err) {
+        console.error('Full error object:', err);
+        setError(err.response?.data?.message || err.message);
+      } finally {
+        setLoading(false);
+      }
+  };
 
     return (
         <div className="page-container">

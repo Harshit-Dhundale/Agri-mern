@@ -45,7 +45,7 @@ export const cropAPI = {
       'Content-Type': 'application/json'
     }
   }),
-  createCropData: (data) => api.post('/crops', data), // ✅ New method added
+  createCropData: (data) => api.post('/crops', data),
 };
 
 // Fertilizer API
@@ -58,6 +58,7 @@ export const fertilizerAPI = {
   createFertilizerData: (data) => api.post('/fertilizers', data), // ✅ New method added
 };
 
+// Disease API
 export const diseaseAPI = {
   predict: (formData) =>
     api.post('/predict_disease', formData, {
