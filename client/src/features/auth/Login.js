@@ -1,6 +1,8 @@
+// client/src/features/auth/Login.js
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authAPI } from "../../utils/api";
+import { useAuth } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 import "./Login.css";
 
@@ -8,6 +10,8 @@ const Login = () => {
   const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -23,10 +27,12 @@ const Login = () => {
 
     try {
       const { data } = await authAPI.login(formData);
-      localStorage.setItem("token", data.token);
-      window.location.replace("/dashboard");
+      // Use the AuthContext login method to store the token and fetch full user details
+      await login(data.token);
+      // Navigate to dashboard after successful login and user validation
+      navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
+      setError(err.message || "Invalid email or password");
     } finally {
       setIsSubmitting(false);
     }

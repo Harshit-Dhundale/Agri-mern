@@ -1,63 +1,124 @@
+/* Dashboard.css */
 .dashboard {
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Loading and Error States */
+.dashboard-loading,
+.dashboard-error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.dashboard-error {
+  color: #dc3545;
+}
+
+/* Sections */
+.dashboard section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 0.5rem;
+}
+
+.dashboard h3 {
+  color: #34495e;
+  margin: 1.5rem 0 1rem;
+  font-size: 1.25rem;
+}
+
+/* User Details */
+.user-details p {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.user-details strong {
+  color: #2c3e50;
+  margin-right: 0.5rem;
+}
+
+/* Farm Details */
+.farm-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.planted-crops ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.planted-crops li {
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  color: #333;
+}
+
+/* Prediction History */
+.prediction-history {
+  overflow-x: auto;
+}
+
+.predictions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.predictions-table th,
+.predictions-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.predictions-table th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 600;
+}
+
+.predictions-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.predictions-table td {
+  color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
   }
-  
-  .dashboard-header {
-    text-align: center;
-    margin-bottom: 2rem;
+
+  .dashboard section {
+    padding: 1rem;
   }
-  
-  .last-login {
-    color: #666;
+
+  .predictions-table th,
+  .predictions-table td {
+    padding: 0.5rem;
     font-size: 0.9rem;
   }
-  
-  .section-header {
-    margin: 2rem 0 1rem;
-    color: #2c3e50;
-  }
-  
-  .farm-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .stat-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  .recommendations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .recommendation-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  .community-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .community-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    min-height: 300px;
-  }
+}

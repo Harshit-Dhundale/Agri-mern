@@ -73,7 +73,7 @@ export const diseaseAPI = {
 // Forum API
 export const forumAPI = {
   getPosts: (page = 1) => api.get(`/posts?page=${page}`),
-  getPost: (id) => api.get(`/posts/${id}`),
+  getPost: (id) => api.get(`/posts/${id}`),  // This now matches the route above
   createPost: (data) => api.post('/posts', data),
   addReply: (postId, data) => api.post(`/posts/${postId}/replies`, data)
 };

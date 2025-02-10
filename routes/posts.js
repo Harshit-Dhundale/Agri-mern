@@ -8,7 +8,7 @@ const handleValidationErrors = require('../middleware/errorHandler');
 // 🔹 Create a New Post (Protected Route)
 router.post(
   '/',
-  authMiddleware,
+  authMiddleware, // Ensure user is authenticated
   validatePost,
   handleValidationErrors,
   async (req, res) => {
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 
   try {
     const posts = await Post.find()
-      .populate('createdBy', 'username') // Get only username of creator
+      .populate('createdBy', 'username') // Populate creator username
       .sort({ createdAt: -1 }) // Sort by newest first
       .skip((page - 1) * limit)
       .limit(limit);
@@ -53,10 +53,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+// 🔹 Get a Single Post by ID
+router.get('/:postId', async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId)
+      .populate('createdBy', 'username') // populate post creator username
+      .populate('replies.createdBy', 'username'); // populate each reply's creator username
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+});
+
 // 🔹 Add a Reply to a Post (Protected Route)
 router.post(
   '/:postId/replies',
-  authMiddleware,
+  authMiddleware, // Ensure user is authenticated
   validateReply,
   handleValidationErrors,
   async (req, res) => {
@@ -69,7 +86,7 @@ router.post(
 
       post.replies.push({
         text: req.body.text,
-        createdBy: req.user._id,
+        createdBy: req.user._id, // Set reply's creator as authenticated user
       });
 
       await post.save();

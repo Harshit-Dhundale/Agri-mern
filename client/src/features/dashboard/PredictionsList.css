@@ -1,0 +1,45 @@
+/* PredictionsList.css */
+.predictions-list {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .predictions-list h2 {
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    color: #333;
+  }
+  
+  .predictions-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .predictions-list li {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+  
+  .predictions-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .predictions-list li strong {
+    display: block;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .no-predictions {
+    text-align: center;
+    color: #777;
+    margin-top: 10px;
+  }
+  
+  .no-predictions button {
+    margin-top: 10px;
+  }

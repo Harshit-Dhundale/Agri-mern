@@ -17,7 +17,6 @@ import FertilizerResult from './features/fertilizers/FertilizerResult';
 import DiseaseDetection from './features/diseases/DiseaseDetection';
 import DiseaseResult from './features/diseases/DiseaseResult';
 import Forum from './features/forum/Forum';
-import NewPost from './features/forum/NewPost';
 import PostDetails from './features/forum/PostDetails';
 import Dashboard from './features/dashboard/Dashboard';
 
@@ -37,7 +36,6 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/forum" element={<Forum />} />
-              <Route path="/forum/new" element={<NewPost />} />
               <Route path="/forum/:postId" element={<PostDetails />} />
 
               {/* Protected Routes */}

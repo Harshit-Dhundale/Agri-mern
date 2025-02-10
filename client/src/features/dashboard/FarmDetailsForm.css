@@ -1,18 +1,75 @@
-.farm-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+/* FarmDetailsForm.css */
+.farm-details-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.farm-details-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.farm-details-form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.farm-details-form input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.farm-details-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.farm-details-form button:hover {
+  background-color: #45a049;
+}
+
+.farm-details-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.farm-details-form p {
+  margin-top: 1rem;
+  color: #4CAF50;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .farm-details-form {
     padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
   }
-  
-  .save-button {
-    grid-column: span 2;
-    padding: 0.8rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+
+  .farm-details-form input {
+    padding: 0.5rem;
   }
+
+  .farm-details-form button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+}

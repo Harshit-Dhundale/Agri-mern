@@ -1,106 +1,101 @@
-import React, { useState, useEffect, useCallback } from 'react'; 
+// client/src/features/dashboard/Dashboard.js
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { userAPI, farmAPI } from '../../utils/api';
-import FarmDetailsForm from './FarmDetailsForm'; // Create this component
-import RecentPredictions from './RecentPredictions'; // Create this component
+import { userAPI, farmAPI, predictionAPI, forumAPI } from '../../utils/api';
+import ProfileCard from './ProfileCard';
+import FarmCard from './FarmCard';
+import PredictionsList from './PredictionsList';
+import ForumPostsList from './ForumPostsList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import CropRecommend from '../crops/CropRecommend';
-import FertilizerRecommend from '../fertilizers/FertilizerRecommend';
-import Forum from '../forum/Forum';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const { currentUser } = useAuth();
   const [userData, setUserData] = useState(null);
   const [farmData, setFarmData] = useState(null);
+  const [predictions, setPredictions] = useState([]);
+  const [forumPosts, setForumPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { currentUser } = useAuth();
 
-// Replace the existing useEffect with:
-const loadData = useCallback(async () => {
-  try {
-    const [userRes, farmRes] = await Promise.all([
-      userAPI.get(currentUser.id),
-      farmAPI.get(currentUser.id)
-    ]);
-    setUserData(userRes.data);
-    setFarmData(farmRes.data);
-  } catch (err) {
-    setError(err.response?.data?.message || 'Failed to load data');
-  } finally {
-    setLoading(false);
-  }
-}, [currentUser.id]);
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userRes = await userAPI.get(currentUser._id);
+        setUserData(userRes.data);
+      } catch (err) {
+        setError(err.message || 'Failed to load user data.');
+      }
+    };
 
-useEffect(() => {
-  if (currentUser) loadData();
-}, [currentUser, loadData]);
+    const loadFarmData = async () => {
+      try {
+        const farmRes = await farmAPI.get(currentUser._id);
+        setFarmData(farmRes.data);
+      } catch (err) {
+        // If no farm exists, we expect a 404 with message "Farm not found for this user"
+        if (err.message && err.message.includes('Farm not found')) {
+          setFarmData(null);
+        } else {
+          setError(err.message || 'Failed to load farm data.');
+        }
+      }
+    };
 
-  const handleFarmUpdate = async (updatedData) => {
-    try {
-      const res = await farmAPI.update(farmData._id, updatedData);
-      setFarmData(res.data);
-    } catch (err) {
-      setError('Failed to update farm details');
+    const loadPredictions = async () => {
+      try {
+        const predRes = await predictionAPI.getHistory();
+        setPredictions(predRes.data);
+      } catch (err) {
+        setPredictions([]);
+      }
+    };
+
+    const loadForumPosts = async () => {
+      try {
+        // Assume you have implemented /api/posts/user/:userId
+        const postsRes = await forumAPI.getUserPosts(currentUser._id);
+        setForumPosts(postsRes.data);
+      } catch (err) {
+        setForumPosts([]);
+      }
+    };
+
+    if (currentUser) {
+      Promise.all([
+        loadUserData(),
+        loadFarmData(),
+        loadPredictions(),
+        loadForumPosts(),
+      ]).finally(() => setLoading(false));
     }
-  };
+  }, [currentUser]);
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} />;
+  if (error) return <p className="dashboard-error">{error}</p>;
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>Welcome back, {userData?.username} 👋</h1>
-        <p className="last-login">Last login: {new Date(userData?.lastLogin).toLocaleString()}</p>
-      </header>
+    <div className="dashboard-container">
+      <h1>Welcome, {userData.username || userData.fullName}!</h1>
+      <p className="dashboard-welcome">
+        We’re glad to have you here. Explore our features and add your data to get the most out of our platform!
+      </p>
+      
+      <div className="dashboard-section">
+        <ProfileCard userData={userData} onUpdate={setUserData} />
+      </div>
 
-      <section className="farm-section">
-        <h2>🏡 Farm Management</h2>
-        <FarmDetailsForm 
-          initialData={farmData} 
-          onSubmit={handleFarmUpdate} 
-        />
-        <div className="farm-stats">
-          <div className="stat-card">
-            <h3>Total Area</h3>
-            <p>{farmData?.size || 0} acres</p>
-          </div>
-          <div className="stat-card">
-            <h3>Current Crops</h3>
-            <p>{farmData?.crops?.join(', ') || 'None'}</p>
-          </div>
-        </div>
-      </section>
+      <div className="dashboard-section">
+        <FarmCard farmData={farmData} onUpdate={setFarmData} />
+      </div>
 
-      <section className="recommendations-section">
-        <h2>📈 Recommendations</h2>
-        <div className="recommendations-grid">
-          <div className="recommendation-card">
-            <h3>Crop Suggestions</h3>
-            <CropRecommend />
-          </div>
-          <div className="recommendation-card">
-            <h3>Fertilizer Plan</h3>
-            <FertilizerRecommend />
-          </div>
-        </div>
-      </section>
+      <div className="dashboard-section">
+        <PredictionsList predictions={predictions} />
+      </div>
 
-      <section className="community-section">
-        <h2>🌱 Community Activity</h2>
-        <div className="community-grid">
-          <div className="community-card">
-            <h3>Recent Forum Posts</h3>
-            <Forum />
-          </div>
-          <div className="community-card">
-            <h3>Your Contributions</h3>
-            <RecentPredictions userId={currentUser.id} />
-          </div>
-        </div>
-      </section>
+      <div className="dashboard-section">
+        <ForumPostsList forumPosts={forumPosts} />
+      </div>
     </div>
   );
 };

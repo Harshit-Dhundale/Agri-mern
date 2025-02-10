@@ -44,7 +44,6 @@ const userRoutes = require('./routes/user');
 const cropRoutes = require('./routes/crops');
 const fertilizerRoutes = require('./routes/fertilizer');
 const diseaseRoutes = require('./routes/disease');
-const predictionRoutes = require('./routes/predictions');
 const farmsRoutes = require('./routes/farms');
 
 
@@ -54,7 +53,6 @@ app.use('/api/crops', cropRoutes);
 app.use('/api/fertilizers', fertilizerRoutes);
 app.use('/api/diseases', diseaseRoutes);
 app.use('/api/posts', postsRouter);
-app.use('/api/predictions', predictionRoutes);
 app.use('/api/farms', farmsRoutes);
 
 

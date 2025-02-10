@@ -1,0 +1,31 @@
+/* FarmCard.css */
+.farm-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .farm-card h2 {
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    color: #333;
+  }
+  
+  .farm-display p {
+    margin: 8px 0;
+    color: #555;
+  }
+  
+  .farm-display button {
+    margin-top: 10px;
+  }
+  
+  .farm-edit {
+    margin-top: 10px;
+  }
+  
+  .farm-edit button {
+    margin-top: 10px;
+  }
