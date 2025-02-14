@@ -124,14 +124,11 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="register-container"
-      style={{ backgroundImage: "url(/assets/farm-background.jpg)" }}
-    >
-      <h1 className="brand-title">FarmiCulture</h1>
-      <div className="register-form">
-        <h2>Register</h2>
-        {errors.form && <p className="error">{errors.form}</p>}
+    <div className="register-container">
+  <div className="register-form">
+    <h1 className="brand-title">FarmiCulture</h1> {/* Now inside the form */}
+    <h2>Register</h2>
+    {errors.form && <p className="error">{errors.form}</p>}
         <form onSubmit={onSubmit}>
           <div>
             <input
@@ -177,6 +174,20 @@ const Register = () => {
             />
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
+          
+           {/* Password Strength Indicator */}
+           <div>
+            <div className="password-strength">
+              <div
+                className="strength-bar"
+                style={{ width: `${passwordStrength * 20}%` }}
+              ></div>
+            </div>
+            <p className="password-strength-text">
+              Password Strength: {["Weak", "Fair", "Good", "Strong", "Very Strong"][passwordStrength]}
+            </p>
+          </div>
+
           <div>
             <select name="gender" value={gender} onChange={onChange} required>
               <option value="Other">Select Gender</option>
@@ -184,6 +195,15 @@ const Register = () => {
               <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>
+          </div>
+          <div>
+            <input
+              type="date"
+              name="dob"
+              value={dob}
+              onChange={onChange}
+              required
+            />
           </div>
           <div>
             <input
@@ -240,27 +260,7 @@ const Register = () => {
             />
             {errors.pincode && <p className="error">{errors.pincode}</p>}
           </div>
-          <div>
-            <input
-              type="date"
-              name="dob"
-              value={dob}
-              onChange={onChange}
-              required
-            />
-          </div>
-          {/* Password Strength Indicator */}
-          <div>
-            <div className="password-strength">
-              <div
-                className="strength-bar"
-                style={{ width: `${passwordStrength * 20}%` }}
-              ></div>
-            </div>
-            <p className="password-strength-text">
-              Password Strength: {["Weak", "Fair", "Good", "Strong", "Very Strong"][passwordStrength]}
-            </p>
-          </div>
+          
           <div>
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? "Registering..." : "Register"}
