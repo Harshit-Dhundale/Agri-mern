@@ -1,9 +1,9 @@
 // client/src/features/dashboard/Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { userAPI, farmAPI, predictionAPI, forumAPI } from '../../utils/api';
+import { userAPI, farmAPI, cropAPI, fertilizerAPI, diseaseAPI, forumAPI } from '../../utils/api';
 import ProfileCard from './ProfileCard';
-import FarmCard from './FarmCard';
+import FarmList from './FarmList';
 import PredictionsList from './PredictionsList';
 import ForumPostsList from './ForumPostsList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -12,7 +12,7 @@ import './Dashboard.css';
 const Dashboard = () => {
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState(null);
-  const [farmData, setFarmData] = useState(null);
+  const [farms, setFarms] = useState([]); // Array of farms now
   const [predictions, setPredictions] = useState([]);
   const [forumPosts, setForumPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,31 +21,39 @@ const Dashboard = () => {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const userRes = await userAPI.get(currentUser._id);
-        setUserData(userRes.data);
+        const res = await userAPI.get(currentUser._id);
+        setUserData(res.data);
       } catch (err) {
         setError(err.message || 'Failed to load user data.');
       }
     };
 
-    const loadFarmData = async () => {
+    const loadFarms = async () => {
       try {
-        const farmRes = await farmAPI.get(currentUser._id);
-        setFarmData(farmRes.data);
+        // Expecting an array of farms from your endpoint
+        const res = await farmAPI.get(currentUser._id);
+        setFarms(res.data);
       } catch (err) {
-        // If no farm exists, we expect a 404 with message "Farm not found for this user"
-        if (err.message && err.message.includes('Farm not found')) {
-          setFarmData(null);
-        } else {
-          setError(err.message || 'Failed to load farm data.');
-        }
+        // If no farms exist, default to an empty array.
+        setFarms([]);
       }
     };
 
     const loadPredictions = async () => {
       try {
-        const predRes = await predictionAPI.getHistory();
-        setPredictions(predRes.data);
+        const [cropRes, fertRes, diseaseRes] = await Promise.all([
+          cropAPI.getUserPredictions(currentUser._id),
+          fertilizerAPI.getUserPredictions(currentUser._id),
+          diseaseAPI.getUserPredictions(currentUser._id),
+        ]);
+        // Tag each result with its type
+        const cropPreds = cropRes.data.map(item => ({ ...item, type: 'Crop' }));
+        const fertPreds = fertRes.data.map(item => ({ ...item, type: 'Fertilizer' }));
+        const diseasePreds = diseaseRes.data.map(item => ({ ...item, type: 'Disease' }));
+        const combined = [...cropPreds, ...fertPreds, ...diseasePreds];
+        // Optional: sort by date (if each item has a createdAt field)
+        combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setPredictions(combined);
       } catch (err) {
         setPredictions([]);
       }
@@ -53,9 +61,9 @@ const Dashboard = () => {
 
     const loadForumPosts = async () => {
       try {
-        // Assume you have implemented /api/posts/user/:userId
-        const postsRes = await forumAPI.getUserPosts(currentUser._id);
-        setForumPosts(postsRes.data);
+        // Ensure your forumAPI.getUserPosts endpoint is implemented
+        const res = await forumAPI.getUserPosts(currentUser._id);
+        setForumPosts(res.data);
       } catch (err) {
         setForumPosts([]);
       }
@@ -64,7 +72,7 @@ const Dashboard = () => {
     if (currentUser) {
       Promise.all([
         loadUserData(),
-        loadFarmData(),
+        loadFarms(),
         loadPredictions(),
         loadForumPosts(),
       ]).finally(() => setLoading(false));
@@ -86,7 +94,7 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-section">
-        <FarmCard farmData={farmData} onUpdate={setFarmData} />
+        <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />
       </div>
 
       <div className="dashboard-section">

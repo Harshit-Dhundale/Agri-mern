@@ -73,4 +73,13 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const diseases = await Disease.find({ createdBy: req.params.userId });
+    return res.json(diseases || []);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

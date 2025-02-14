@@ -19,6 +19,10 @@ import DiseaseResult from './features/diseases/DiseaseResult';
 import Forum from './features/forum/Forum';
 import PostDetails from './features/forum/PostDetails';
 import Dashboard from './features/dashboard/Dashboard';
+import CreatePost from './features/forum/CreatePost';
+
+// Inside your Routes:
+
 
 function App() {
   return (
@@ -37,6 +41,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/forum" element={<Forum />} />
               <Route path="/forum/:postId" element={<PostDetails />} />
+              <Route path="/create-post" element={<CreatePost />} />
 
               {/* Protected Routes */}
               <Route element={<ProtectedRoute />}>

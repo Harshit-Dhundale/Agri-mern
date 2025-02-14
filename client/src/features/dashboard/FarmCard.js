@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import FarmDetailsForm from './FarmDetailsForm';
 import './FarmCard.css';
 
-const FarmCard = ({ farmData, onUpdate }) => {
+const FarmCard = ({ farmData, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditToggle = () => {
@@ -12,9 +12,9 @@ const FarmCard = ({ farmData, onUpdate }) => {
 
   return (
     <div className="farm-card card">
-      {farmData && !isEditing ? (
+      {!isEditing ? (
         <div className="farm-display">
-          <h2>Farm Details</h2>
+          <h2>{farmData.name || "Unnamed Farm"}</h2>
           <p><strong>Location:</strong> {farmData.location}</p>
           <p><strong>Size:</strong> {farmData.size} acres</p>
           <p><strong>Crops:</strong> {farmData.crops.join(', ')}</p>
@@ -22,6 +22,9 @@ const FarmCard = ({ farmData, onUpdate }) => {
           <p><strong>Description:</strong> {farmData.description}</p>
           <button className="btn btn-secondary" onClick={handleEditToggle}>
             Edit Farm Details
+          </button>
+          <button className="btn btn-danger" onClick={() => onDelete(farmData._id)}>
+            Delete Farm
           </button>
         </div>
       ) : (

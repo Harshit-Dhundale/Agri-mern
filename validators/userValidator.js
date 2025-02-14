@@ -41,10 +41,7 @@ const validateUserRegistration = [
   body('dob')
     .notEmpty().withMessage('Date of birth is required')
     .isISO8601().withMessage('Date of birth must be a valid date'),
-    
-  body('profilePicture')
-    .notEmpty().withMessage('Profile picture is required')
-    .isURL().withMessage('Profile picture must be a valid URL')
+  
 ];
 
 const validateUserLogin = [

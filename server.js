@@ -45,6 +45,7 @@ const cropRoutes = require('./routes/crops');
 const fertilizerRoutes = require('./routes/fertilizer');
 const diseaseRoutes = require('./routes/disease');
 const farmsRoutes = require('./routes/farms');
+const postsRoutes = require('./routes/posts');
 
 
 // Use Routes
@@ -53,7 +54,9 @@ app.use('/api/crops', cropRoutes);
 app.use('/api/fertilizers', fertilizerRoutes);
 app.use('/api/diseases', diseaseRoutes);
 app.use('/api/posts', postsRouter);
+app.use('/api/posts', postsRoutes);
 app.use('/api/farms', farmsRoutes);
+app.use('/uploads', express.static('uploads'));
 
 
 // API Endpoints for Interacting with Python Services

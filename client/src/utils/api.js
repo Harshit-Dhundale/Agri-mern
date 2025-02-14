@@ -46,6 +46,7 @@ export const cropAPI = {
     }
   }),
   createCropData: (data) => api.post('/crops', data),
+  getUserPredictions: (userId) => api.get(`/crops/user/${userId}`)
 };
 
 // Fertilizer API
@@ -55,7 +56,8 @@ export const fertilizerAPI = {
       'Content-Type': 'application/json'
     }
   }),
-  createFertilizerData: (data) => api.post('/fertilizers', data), // ✅ New method added
+  createFertilizerData: (data) => api.post('/fertilizers', data), 
+  getUserPredictions: (userId) => api.get(`/fertilizers/user/${userId}`)
 };
 
 // Disease API
@@ -68,6 +70,7 @@ export const diseaseAPI = {
     api.post('/diseases', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }),
+  getUserPredictions: (userId) => api.get(`/diseases/user/${userId}`)
 };
 
 // Forum API
@@ -75,7 +78,10 @@ export const forumAPI = {
   getPosts: (page = 1) => api.get(`/posts?page=${page}`),
   getPost: (id) => api.get(`/posts/${id}`),  // This now matches the route above
   createPost: (data) => api.post('/posts', data),
-  addReply: (postId, data) => api.post(`/posts/${postId}/replies`, data)
+  addReply: (postId, data) => api.post(`/posts/${postId}/replies`, data),
+  getUserPosts: (userId) => api.get(`/posts/user/${userId}`),
+  deletePost: (postId) => api.delete(`/posts/${postId}`),
+  updatePost: (postId, data) => api.put(`/posts/${postId}`, data),
 };
 
 // User API
@@ -89,6 +95,7 @@ export const farmAPI = {
   get: (userId) => api.get(`/farms/${userId}`),
   create: (data) => api.post('/farms', data),
   update: (farmId, data) => api.put(`/farms/${farmId}`, data),
+  delete: (farmId) => api.delete(`/farms/${farmId}`),
 };
 
 // Prediction API

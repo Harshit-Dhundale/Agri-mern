@@ -1,35 +1,150 @@
+/* client/src/features/home/Home.css */
 .home-container {
-    min-height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('/public/assets/farm-background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
-  .hero-section {
-    text-align: center;
-    padding: 4rem 0;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  }
-  
-  .features-slider {
-    width: 80%;
-    margin: 2rem auto;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .auth-actions {
-    margin-top: auto; /* Push to bottom */
-    padding-bottom: 2rem; /* Add spacing */
-  }
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative;
+  /* Reduce height slightly to minimize extra white space */
+  height: 80vh;
+  background: url('/public/assets/farm-background.jpg') no-repeat center center/cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Reduced side padding */
+  padding: 0 0.5rem;
+  color: #fff;
+}
+
+.brand-title {
+  font-size: 2.5rem; /* slightly reduced */
+  margin-bottom: 0.5rem;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-message {
+  font-size: 1rem;
+  max-width: 90%; /* reduce max width to use more of the screen */
+  margin-bottom: 1.5rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.hero-buttons .btn {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #43a047;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+}
+
+.btn-secondary:hover {
+  background-color: #f1f1f1;
+}
+
+/* FEATURES SECTION */
+.features-section {
+  padding: 2rem 0; /* reduced vertical padding */
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.features-slider {
+  width: 90%; /* use more horizontal space */
+  margin: 0 auto;
+}
+
+/* FEATURE SLIDE STYLES */
+.feature-slide {
+  padding: 0.5rem;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-image-container {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.feature-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feature-title {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.feature-description {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+.feature-link {
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #4CAF50;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.feature-link:hover {
+  color: #388e3c;
+}

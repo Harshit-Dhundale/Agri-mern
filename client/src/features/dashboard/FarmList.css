@@ -1,0 +1,36 @@
+/* client/src/features/dashboard/FarmList.css */
+.farm-list {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.farm-list h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.farm-list p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.farm-add-form {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.farm-add-form h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+/* Optional: Ensure buttons in this component have proper spacing */
+.farm-list .btn {
+  margin-top: 1rem;
+}

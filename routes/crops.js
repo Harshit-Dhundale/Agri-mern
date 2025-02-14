@@ -48,6 +48,19 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET all crop predictions for a given user
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const crops = await Crop.find({ createdBy: req.params.userId });
+    // If no crops exist, return an empty array (do not send 404)
+    return res.json(crops || []);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
+
 // Prediction endpoint remains unchanged if it calls your Python service
 router.post('/predict_crop', 
   authMiddleware,

@@ -1,7 +1,10 @@
-// models/Farm.js
 const mongoose = require('mongoose');
 
 const farmSchema = new mongoose.Schema({
+  name: { 
+    type: String, 
+    required: [true, 'Farm name is required'] 
+  }, // Added farm name field
   location: { 
     type: String, 
     required: [true, 'Location is required'] 
@@ -9,15 +12,15 @@ const farmSchema = new mongoose.Schema({
   size: { 
     type: Number, 
     required: [true, 'Size is required'] 
-  }, // For example, size in acres
+  }, // Size in acres
   crops: [{ 
     type: String, 
     required: [true, 'At least one crop is required'] 
-  }], // An array of crops planted
+  }], // Array of crops
   farmType: { 
     type: String, 
     required: [true, 'Farm type is required'] 
-  }, // e.g. "Organic", "Conventional", etc.
+  }, // e.g., "Organic", "Conventional"
   description: { 
     type: String, 
     required: [true, 'Description is required'] 

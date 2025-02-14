@@ -16,7 +16,7 @@ const ProfileCard = ({ userData, onUpdate }) => {
         <div className="profile-display">
           <div className="profile-image">
             <img
-              src={userData.profilePicture || '/default-profile.png'}
+              src={userData.profilePicture || '/assets/profile.png'}
               alt="Profile"
             />
           </div>

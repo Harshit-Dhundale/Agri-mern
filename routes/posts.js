@@ -70,6 +70,17 @@ router.get('/:postId', async (req, res) => {
   }
 });
 
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const posts = await Post.find({ createdBy: req.params.userId });
+    return res.json(posts || []);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
+
 // 🔹 Add a Reply to a Post (Protected Route)
 router.post(
   '/:postId/replies',
@@ -97,5 +108,18 @@ router.post(
     }
   }
 );
+
+// DELETE post route
+router.delete('/:postId', authMiddleware, async (req, res) => {
+  try {
+    const deleted = await Post.findByIdAndDelete(req.params.postId);
+    if (!deleted) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;

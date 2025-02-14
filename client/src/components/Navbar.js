@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('');
   };
 
   // Hide navbar on homepage when not logged in.

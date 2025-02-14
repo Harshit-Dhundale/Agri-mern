@@ -1,4 +1,3 @@
-// routes/farms.js
 const express = require('express');
 const router = express.Router();
 const Farm = require('../models/Farm');
@@ -11,6 +10,7 @@ router.post(
   '/',
   authMiddleware,
   [
+    body('name').notEmpty().withMessage('Farm name is required'), // Added validation for name
     body('location').notEmpty().withMessage('Location is required'),
     body('size').isNumeric().withMessage('Size must be a number'),
     body('crops').isArray({ min: 1 }).withMessage('At least one crop is required'),
@@ -20,8 +20,9 @@ router.post(
   handleValidationErrors,
   async (req, res) => {
     try {
-      const { location, size, crops, farmType, description } = req.body;
+      const { name, location, size, crops, farmType, description } = req.body;
       const newFarm = new Farm({
+        name, // Added name field
         location,
         size,
         crops,
@@ -38,27 +39,41 @@ router.post(
   }
 );
 
-// GET farm details for a given user (Assuming one farm per user)
+// GET all farms for a given user
 router.get('/:userId', async (req, res) => {
   try {
-    const farm = await Farm.findOne({ createdBy: req.params.userId });
-    if (!farm) return res.status(404).json({ message: 'Farm not found for this user' });
-    res.json(farm);
+    const farms = await Farm.find({ createdBy: req.params.userId });
+    return res.json(farms || []);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 
 // PUT route to update farm details by farm ID (Protected)
 router.put('/:farmId', authMiddleware, async (req, res) => {
   try {
-    const updatedFarm = await Farm.findByIdAndUpdate(req.params.farmId, req.body, { new: true });
+    const { name, location, size, crops, farmType, description } = req.body; // Extract name
+    const updatedFarm = await Farm.findByIdAndUpdate(
+      req.params.farmId,
+      { name, location, size, crops, farmType, description }, // Ensure name is updated
+      { new: true, runValidators: true }
+    );
+
     if (!updatedFarm) return res.status(404).json({ message: 'Farm not found' });
     res.json(updatedFarm);
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: error.message });
+  }
+});
+
+router.delete('/:farmId', authMiddleware, async (req, res) => {
+  try {
+    const deleted = await Farm.findByIdAndDelete(req.params.farmId);
+    if (!deleted) return res.status(404).json({ message: 'Farm not found' });
+    res.json({ message: 'Farm deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

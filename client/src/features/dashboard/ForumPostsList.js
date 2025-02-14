@@ -6,8 +6,12 @@ import './ForumPostsList.css';
 const ForumPostsList = ({ forumPosts }) => {
   const navigate = useNavigate();
 
-  const handleCreatePost = () => {
-    navigate('/forum');
+  // const handleViewAll = () => {
+  //   navigate('/forum');
+  // };
+
+  const handleViewPost = (postId) => {
+    navigate(`/forum/${postId}`);
   };
 
   return (
@@ -18,18 +22,28 @@ const ForumPostsList = ({ forumPosts }) => {
           {forumPosts.map((post) => (
             <li key={post._id}>
               <strong>{post.title}</strong>
-              <p>{post.content.substring(0, 100)}...</p>
+              <p>{post.content}</p>
+              <button className="btn btn-link" onClick={() => handleViewPost(post._id)}>
+                View Full Post
+              </button>
             </li>
           ))}
         </ul>
       ) : (
         <div className="no-posts">
           <p>You haven't created any forum posts yet. Share your ideas with the community!</p>
-          <button className="btn btn-primary" onClick={handleCreatePost}>
+          <button className="btn btn-primary" onClick={() => navigate('/forum')}>
             Create a Post
           </button>
         </div>
       )}
+      {/* {forumPosts.length > 0 && (
+        <div className="view-all-posts">
+          <button className="btn btn-secondary" onClick={handleViewAll}>
+            View All Forum Posts
+          </button>
+        </div>
+      )} */}
     </div>
   );
 };

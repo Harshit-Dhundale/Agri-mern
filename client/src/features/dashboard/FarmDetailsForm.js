@@ -4,19 +4,18 @@ import { farmAPI } from '../../utils/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import './FarmDetailsForm.css';
 
-const FarmDetailsForm = ({ farmData, onUpdate }) => {
-  // Initialize with existing farmData or defaults
+const FarmDetailsForm = ({ farmData, onUpdate, userId }) => {
   const [formData, setFormData] = useState({
+    name: farmData?.name || '', // new field for farm name
     location: farmData?.location || '',
     size: farmData?.size || '',
     crops: farmData?.crops ? farmData.crops.join(', ') : '', // Comma-separated list
-    farmType: farmData?.farmType || '', // e.g., "Organic", "Conventional", etc.
+    farmType: farmData?.farmType || '',
     description: farmData?.description || '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // (Optional) Define available farm types (or fetch them from an API)
   const availableFarmTypes = ["Organic", "Conventional", "Mixed"];
 
   const handleChange = (e) => {
@@ -29,7 +28,6 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
     setError('');
 
     try {
-      // Prepare the data; convert the crops string into an array
       const updatedData = {
         ...formData,
         crops: formData.crops.split(',').map(crop => crop.trim()),
@@ -37,11 +35,9 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
 
       let response;
       if (farmData && farmData._id) {
-        // If farm data exists, update the farm record
         response = await farmAPI.update(farmData._id, updatedData);
       } else {
-        // Otherwise, create a new farm record
-        response = await farmAPI.create(updatedData);
+        response = await farmAPI.create({ ...updatedData, createdBy: userId });
       }
 
       onUpdate(response.data);
@@ -56,6 +52,16 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
     <div className="farm-details-form">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label>Farm Name</label>
+          <input 
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
           <label>Location</label>
           <input 
             type="text"
@@ -65,7 +71,6 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Size (in acres)</label>
           <input 
@@ -76,7 +81,6 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Crops Planted (comma separated)</label>
           <input 
@@ -87,7 +91,6 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Farm Type</label>
           <select 
@@ -104,7 +107,6 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
             ))}
           </select>
         </div>
-
         <div className="form-group">
           <label>Description</label>
           <textarea
@@ -114,11 +116,9 @@ const FarmDetailsForm = ({ farmData, onUpdate }) => {
             required
           ></textarea>
         </div>
-
         {error && <p className="error-message">{error}</p>}
         <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-          {isSubmitting ? <LoadingSpinner /> : 
-            (farmData && farmData._id ? 'Update Farm Details' : 'Create Farm Details')}
+          {isSubmitting ? <LoadingSpinner /> : (farmData && farmData._id ? 'Update Farm Details' : 'Create Farm Details')}
         </button>
       </form>
     </div>

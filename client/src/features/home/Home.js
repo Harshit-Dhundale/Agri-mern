@@ -1,3 +1,4 @@
+// client/src/features/home/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -11,25 +12,25 @@ const Home = () => {
     {
       title: "Crop Recommendation",
       image: "/assets/crop.png",
-      description: "AI-driven crop suggestions based on soil conditions",
+      description: "Get personalized crop suggestions based on your soil conditions.",
       path: "/crop-recommendation"
     },
     {
       title: "Fertilizer Recommendation",
       image: "/assets/fertilizer.png",
-      description: "Personalized fertilizer solutions",
+      description: "Receive custom fertilizer solutions for optimal yield.",
       path: "/fertilizer-recommendation"
     },
     {
       title: "Disease Detection",
       image: "/assets/disease.png",
-      description: "Image-based disease detection",
+      description: "Identify plant diseases with AI-powered image analysis.",
       path: "/disease-detection"
     },
     {
       title: "Community Forum",
       image: "/assets/forum.png",
-      description: "Connect with farming community",
+      description: "Connect and share with the farming community.",
       path: "/forum"
     }
   ];
@@ -46,37 +47,40 @@ const Home = () => {
 
   return (
     <ErrorBoundary>
-      <div className="home-container">
-        <div className="hero-section">
-          <h1 className="brand-title">FarmiCulture</h1>
-          <p className="tagline">Smart Agricultural Solutions</p>
-        </div>
+      <div className="home-container ">
+        <section className="hero-section">
+          <div className="hero-overlay">
+            <h1 className="brand-title">Welcome to FarmiCulture</h1>
+            <p className="tagline">Smart Agricultural Solutions for a Sustainable Future</p>
+            <p className="welcome-message">
+              Empowering farmers with innovative technology and a supportive community. Let’s grow together!
+            </p>
+            <div className="hero-buttons">
+              <Link to="/register" className="btn btn-primary">Get Started</Link>
+              <Link to="/login" className="btn btn-secondary">Existing User? Login</Link>
+            </div>
+          </div>
+        </section>
 
-        <div className="features-slider">
-          <Slider {...sliderSettings}>
-            {features.map((feature, index) => (
-              <div key={index} className="feature-slide">
-                <div className="feature-content">
-                  <img src={feature.image} alt={feature.title} />
-                  <h3>{feature.title}</h3>
-                  <p>{feature.description}</p>
-                  <Link to={feature.path} className="feature-link">
-                    Learn More
-                  </Link>
+        <section className="features-section">
+          <h2 className="section-title">Our Features</h2>
+          <div className="features-slider">
+            <Slider {...sliderSettings}>
+              {features.map((feature, index) => (
+                <div key={index} className="feature-slide">
+                  <div className="feature-card">
+                    <div className="feature-image-container">
+                      <img src={feature.image} alt={feature.title} className="feature-image" />
+                    </div>
+                    <h3 className="feature-title">{feature.title}</h3>
+                    <p className="feature-description">{feature.description}</p>
+                    <Link to={feature.path} className="feature-link">Learn More</Link>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
-
-        <div className="auth-actions">
-          <Link to="/register" className="btn btn-primary">
-            Get Started
-          </Link>
-          <Link to="/login" className="btn btn-secondary">
-            Existing User? Login
-          </Link>
-        </div>
+              ))}
+            </Slider>
+          </div>
+        </section>
       </div>
     </ErrorBoundary>
   );

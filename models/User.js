@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   city:        { type: String, required: true },
   pincode:     { type: String, required: true },
   dob:         { type: Date, required: true },
-  profilePicture: { type: String, required: true } // URL to profile picture
+  profilePicture: { type: String, } // URL to profile picture
 }, { timestamps: true });
 
 userSchema.pre('save', async function(next) {
