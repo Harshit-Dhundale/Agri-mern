@@ -3,11 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import ErrorBoundary from '../../components/common/ErrorBoundary';
+import { useAuth } from '../../context/AuthContext'; // ✅ Import Auth Context
 import './Home.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+  const { currentUser } = useAuth(); // ✅ Get the current user from AuthContext
+
   const features = [
     {
       title: "Crop Recommendation",
@@ -47,7 +50,7 @@ const Home = () => {
 
   return (
     <ErrorBoundary>
-      <div className="home-container ">
+      <div className="home-container">
         <section className="hero-section">
           <div className="hero-overlay">
             <h1 className="brand-title">Welcome to FarmiCulture</h1>
@@ -55,10 +58,13 @@ const Home = () => {
             <p className="welcome-message">
               Empowering farmers with innovative technology and a supportive community. Let’s grow together!
             </p>
-            <div className="hero-buttons">
-              <Link to="/register" className="btn btn-primary">Get Started</Link>
-              <Link to="/login" className="btn btn-secondary">Existing User? Login</Link>
-            </div>
+            {/* ✅ Show buttons only if the user is NOT logged in */}
+            {!currentUser && (
+              <div className="hero-buttons">
+                <Link to="/register" className="btn btn-primary">Get Started</Link>
+                <Link to="/login" className="btn btn-secondary">Existing User? Login</Link>
+              </div>
+            )}
           </div>
         </section>
 

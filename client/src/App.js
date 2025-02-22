@@ -20,8 +20,10 @@ import Forum from './features/forum/Forum';
 import PostDetails from './features/forum/PostDetails';
 import Dashboard from './features/dashboard/Dashboard';
 import CreatePost from './features/forum/CreatePost';
+import About from './features/aboutus/About';
+import Profile from './features/profile/Profile';
+import Contact from './features/contact/Contact';
 
-// Inside your Routes:
 
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
               <Route path="/forum" element={<Forum />} />
               <Route path="/forum/:postId" element={<PostDetails />} />
               <Route path="/create-post" element={<CreatePost />} />
+              <Route path="about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
 
               {/* Protected Routes */}
               <Route element={<ProtectedRoute />}>
@@ -52,6 +56,7 @@ function App() {
                 <Route path="/fertilizer-result" element={<FertilizerResult />} />
                 <Route path="/disease-detection" element={<DiseaseDetection />} />
                 <Route path="/disease-result" element={<DiseaseResult />} />
+                <Route path="/profile" element={<Profile />} />
               </Route>
             </Route>
           </Routes>

@@ -5,7 +5,7 @@
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .container {
@@ -14,7 +14,7 @@
   /* max-width: 1200px;  */
   margin: 0 auto;
   padding: 1rem;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .container.full-width {

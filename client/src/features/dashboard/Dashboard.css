@@ -6,6 +6,11 @@
   font-family: 'Arial', sans-serif;
 }
 
+.dashboard-container {
+  padding-top: 50px; /* Adjust this based on the navbar height */
+}
+
+
 /* Loading and Error States */
 .dashboard-loading,
 .dashboard-error {

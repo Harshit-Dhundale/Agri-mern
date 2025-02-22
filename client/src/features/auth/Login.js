@@ -30,7 +30,7 @@ const Login = () => {
       // Use the AuthContext login method to store the token and fetch full user details
       await login(data.token);
       // Navigate to dashboard after successful login and user validation
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       setError(err.message || "Invalid email or password");
     } finally {

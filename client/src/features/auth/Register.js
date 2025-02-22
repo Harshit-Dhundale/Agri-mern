@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from '../../context/AuthContext';
-import { Country, State, City } from "country-state-city"; // Import from package
+import { useAuth } from "../../context/AuthContext";
+import { Country, State, City } from "country-state-city";
 import "./Register.css";
 
 const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Extend your formData with location fields using ISO codes (or names)
   const [formData, setFormData] = useState({
     username: "",
     fullName: "",
@@ -33,22 +32,19 @@ const Register = () => {
 
   const { username, fullName, email, password, gender, phone, country, state, city, pincode, dob } = formData;
 
-  // Populate countries on mount
   useEffect(() => {
     const allCountries = Country.getAllCountries();
     setCountries(allCountries);
   }, []);
 
-  // When country changes, update states
   const handleCountryChange = (e) => {
     const selectedCountry = e.target.value;
     setFormData({ ...formData, country: selectedCountry, state: "", city: "" });
     const allStates = State.getStatesOfCountry(selectedCountry);
     setStates(allStates);
-    setCities([]); // Reset cities as well
+    setCities([]);
   };
 
-  // When state changes, update cities
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
     setFormData({ ...formData, state: selectedState, city: "" });
@@ -61,7 +57,6 @@ const Register = () => {
   };
 
   const onChange = (e) => {
-    // For fields other than country and state we use a simple onChange
     const { name, value } = e.target;
     if (name !== "country" && name !== "state" && name !== "city") {
       setFormData({ ...formData, [name]: value });
@@ -96,13 +91,11 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-    
     setIsSubmitting(true);
     try {
       const response = await axios.post(
@@ -112,7 +105,7 @@ const Register = () => {
       );
       if (response.data.token) {
         login(response.data.token);
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       setErrors({
@@ -124,144 +117,143 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-  <div className="register-form">
-    <h1 className="brand-title">FarmiCulture</h1> {/* Now inside the form */}
-    <h2>Register</h2>
-    {errors.form && <p className="error">{errors.form}</p>}
+    <div
+      className="register-container"
+    >
+      <div className="register-form">
+        <h1 className="brand-title">FarmiCulture</h1>
+        <h2>Register</h2>
+        {errors.form && <p className="error">{errors.form}</p>}
         <form onSubmit={onSubmit}>
-          <div>
-            <input
-              type="text"
-              placeholder="Username"
-              name="username"
-              value={username}
-              onChange={onChange}
-              required
-            />
-            {errors.username && <p className="error">{errors.username}</p>}
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Full Name"
-              name="fullName"
-              value={fullName}
-              onChange={onChange}
-              required
-            />
-            {errors.fullName && <p className="error">{errors.fullName}</p>}
-          </div>
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={email}
-              onChange={onChange}
-              required
-            />
-            {errors.email && <p className="error">{errors.email}</p>}
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={onChange}
-              required
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
-          </div>
-          
-           {/* Password Strength Indicator */}
-           <div>
-            <div className="password-strength">
-              <div
-                className="strength-bar"
-                style={{ width: `${passwordStrength * 20}%` }}
-              ></div>
+          <div className="form-grid">
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                value={username}
+                onChange={onChange}
+                required
+              />
+              {errors.username && <p className="error">{errors.username}</p>}
             </div>
-            <p className="password-strength-text">
-              Password Strength: {["Weak", "Fair", "Good", "Strong", "Very Strong"][passwordStrength]}
-            </p>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Full Name"
+                name="fullName"
+                value={fullName}
+                onChange={onChange}
+                required
+              />
+              {errors.fullName && <p className="error">{errors.fullName}</p>}
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={email}
+                onChange={onChange}
+                required
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={onChange}
+                required
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
+            </div>
+            <div className="form-group">
+              <select name="gender" value={gender} onChange={onChange} required>
+                <option value="Other">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                type="date"
+                name="dob"
+                value={dob}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Phone Number"
+                name="phone"
+                value={phone}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <select name="country" value={country} onChange={handleCountryChange} required>
+                <option value="">Select Country</option>
+                {countries.map((c) => (
+                  <option key={c.isoCode} value={c.isoCode}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+              {errors.country && <p className="error">{errors.country}</p>}
+            </div>
+            <div className="form-group">
+              <select name="state" value={state} onChange={handleStateChange} required>
+                <option value="">Select State</option>
+                {states.map((s) => (
+                  <option key={s.isoCode} value={s.isoCode}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+              {errors.state && <p className="error">{errors.state}</p>}
+            </div>
+            <div className="form-group">
+              <select name="city" value={city} onChange={handleCityChange} required>
+                <option value="">Select City</option>
+                {cities.map((ct) => (
+                  <option key={ct.name} value={ct.name}>
+                    {ct.name}
+                  </option>
+                ))}
+              </select>
+              {errors.city && <p className="error">{errors.city}</p>}
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Pincode"
+                name="pincode"
+                value={pincode}
+                onChange={onChange}
+                required
+              />
+              {errors.pincode && <p className="error">{errors.pincode}</p>}
+            </div>
+            <div className="form-group password-group full-width">
+              <div className="password-strength">
+                <div
+                  className="strength-bar"
+                  style={{ width: `${passwordStrength * 20}%` }}
+                ></div>
+              </div>
+              <p className="password-strength-text">
+                Password Strength: {["Weak", "Fair", "Good", "Strong", "Very Strong"][passwordStrength]}
+              </p>
+            </div>
           </div>
-
-          <div>
-            <select name="gender" value={gender} onChange={onChange} required>
-              <option value="Other">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div>
-            <input
-              type="date"
-              name="dob"
-              value={dob}
-              onChange={onChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Phone Number"
-              name="phone"
-              value={phone}
-              onChange={onChange}
-              required
-            />
-          </div>
-          {/* Cascading location dropdowns */}
-          <div>
-            <select name="country" value={country} onChange={handleCountryChange} required>
-              <option value="">Select Country</option>
-              {countries.map((c) => (
-                <option key={c.isoCode} value={c.isoCode}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-            {errors.country && <p className="error">{errors.country}</p>}
-          </div>
-          <div>
-            <select name="state" value={state} onChange={handleStateChange} required>
-              <option value="">Select State</option>
-              {states.map((s) => (
-                <option key={s.isoCode} value={s.isoCode}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-            {errors.state && <p className="error">{errors.state}</p>}
-          </div>
-          <div>
-            <select name="city" value={city} onChange={handleCityChange} required>
-              <option value="">Select City</option>
-              {cities.map((ct) => (
-                <option key={ct.name} value={ct.name}>
-                  {ct.name}
-                </option>
-              ))}
-            </select>
-            {errors.city && <p className="error">{errors.city}</p>}
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Pincode"
-              name="pincode"
-              value={pincode}
-              onChange={onChange}
-              required
-            />
-            {errors.pincode && <p className="error">{errors.pincode}</p>}
-          </div>
-          
-          <div>
+          <div className="form-group full-width">
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? "Registering..." : "Register"}
             </button>

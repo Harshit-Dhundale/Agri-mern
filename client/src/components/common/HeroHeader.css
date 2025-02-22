@@ -1,0 +1,36 @@
+/* client/src/components/common/HeroHeader.css */
+.hero-header {
+    position: relative;
+    height: 40vh; /* Adjust as needed */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 1rem;
+  }
+  
+  .hero-overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-overlay p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }

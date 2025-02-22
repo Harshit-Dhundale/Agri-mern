@@ -1,124 +1,181 @@
-/* client/src/components/Navbar.css */
+/* Navbar Styles */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 2rem;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    height: 60px;
-  }
-  
-  /* Ensure content is not hidden behind the fixed navbar */
-  body {
-    padding-top: 60px;
-  }
-  
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #4CAF50;
-    text-decoration: none;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-item a {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-item a:hover,
+.nav-item a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.auth-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4CAF50;
+}
+
+.navbar-username {
+  font-size: 1rem;
+  color: #333;
+  transition: color 0.3s ease;
+  color: inherit;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Dropdown Styles */
+.auth-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Ensure dropdown toggles have padding and transition for background and color */
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+/* When hovering over the dropdown toggle, change background to green and text to white */
+.dropdown-toggle:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+/* Update the dropdown arrow to also change color on hover */
+.dropdown-arrow {
+  display: inline-block;
+  margin-left: 0.3rem;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  transition: border-top-color 0.3s ease;
+}
+
+.dropdown-toggle:hover .dropdown-arrow {
+  border-top-color: #fff;
+}
+
+/* Rotate the arrow when the dropdown is open */
+.auth-dropdown .dropdown-toggle:hover .dropdown-arrow,
+.auth-dropdown .dropdown-menu + .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0.5rem 0;
+  z-index: 1001;
+}
+
+/* Dropdown menu items */
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* On hover, change dropdown items background to green and text to white */
+.dropdown-item:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
   .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-  }
-  
-  .nav-item a {
-    color: #333;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .nav-item a:hover,
-  .nav-item a.active {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .logout-button {
-    background: none;
-    border: none;
-    color: #333;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .mobile-menu-toggle {
     display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-  
-  .auth-links {
+
+  .nav-links.active {
     display: flex;
-    gap: 1rem;
-    align-items: center;
   }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+
+  .mobile-menu-toggle {
+    display: block;
   }
-  
-  .navbar-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #4CAF50;
+
+  .navbar {
+    padding: 0.5rem 1rem;
   }
-  
-  .navbar-username {
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  /* Mobile responsive styles */
-  @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      right: 0;
-      background-color: #fff;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-  
-    .nav-links.active {
-      display: flex;
-    }
-  
-    .mobile-menu-toggle {
-      display: block;
-    }
-  
-    .navbar {
-      padding: 0.5rem 1rem;
-    }
-  }
+}

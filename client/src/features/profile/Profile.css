@@ -1,0 +1,47 @@
+/* client/src/features/profile/Profile.css */
+.profile-page {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .profile-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 2rem;
+  }
+  
+  .profile-card h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .profile-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  .profile-image {
+    flex: 1 1 150px;
+    text-align: center;
+  }
+  
+  .profile-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+  }
+  
+  .profile-info {
+    flex: 2 1 300px;
+  }
+  
+  .profile-info p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }

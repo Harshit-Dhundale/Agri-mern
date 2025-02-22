@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { userAPI, farmAPI, cropAPI, fertilizerAPI, diseaseAPI, forumAPI } from '../../utils/api';
-import ProfileCard from './ProfileCard';
+// import ProfileCard from './ProfileCard';
 import FarmList from './FarmList';
 import PredictionsList from './PredictionsList';
 import ForumPostsList from './ForumPostsList';
@@ -89,9 +89,9 @@ const Dashboard = () => {
         We’re glad to have you here. Explore our features and add your data to get the most out of our platform!
       </p>
       
-      <div className="dashboard-section">
+      {/* <div className="dashboard-section">
         <ProfileCard userData={userData} onUpdate={setUserData} />
-      </div>
+      </div> */}
 
       <div className="dashboard-section">
         <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />

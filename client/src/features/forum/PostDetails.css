@@ -3,7 +3,12 @@
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
+    
 }
+
+.post-details {
+    padding-top: 50px; /* Adjust this based on the navbar height */
+  }
 
 .reply-list {
     margin-top: 2rem;
