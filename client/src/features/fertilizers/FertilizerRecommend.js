@@ -1,8 +1,10 @@
+// client/src/features/fertilizers/FertilizerRecommend.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fertilizerAPI } from '../../utils/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { FormLayout } from '../../components/common/FormLayout';
+import HeroHeader from '../../components/common/HeroHeader'; // Import HeroHeader
 import './FertilizerRecommend.css';
 
 const soilTypes = ['Black', 'Clayey', 'Loamy', 'Red', 'Sandy'];
@@ -103,78 +105,87 @@ const FertilizerRecommend = () => {
   };
 
   return (
-    <div className="page-container">
-      <FormLayout
+    <>
+      {/* HeroHeader with background image */}
+      <HeroHeader
         title="Fertilizer Recommendation"
-        description="Enter soil composition data for personalized recommendations"
-      >
-        <form onSubmit={handleSubmit} className="styled-form">
-          <div className="form-grid">
-            {[
-              { label: "Soil Temperature (°C)", key: "temperature" },
-              { label: "Soil Humidity (%)", key: "humidity" },
-              { label: "Soil Moisture (%)", key: "moisture" },
-              { label: "Amount of Nitrogen", key: "nitrogen" },
-              { label: "Amount of Phosphorus", key: "phosphorus" },
-              { label: "Amount of Potassium", key: "potassium" }
-            ].map(({ label, key }) => (
-              <div className="form-group" key={key}>
-                <label>{label}</label>
-                <input
-                  type="number"
-                  name={key}
-                  value={formData[key]}
-                  onChange={(e) =>
-                    setFormData({ ...formData, [key]: e.target.value })
-                  }
-                  placeholder={`Enter ${label}`}
-                  required
-                />
-              </div>
-            ))}
-          </div>
+        subtitle="Enter soil composition data for personalized fertilizer suggestions."
+        backgroundImage="/assets/head/fert.jpg"  // Path to image in public folder
+      />
 
-          <div className="form-grid">
-            {[
-              { label: "Soil Type", key: "soilType", options: soilTypes },
-              { label: "Crop Type", key: "cropType", options: cropTypes }
-            ].map(({ label, key, options }) => (
-              <div className="form-group" key={key}>
-                <label>{label}</label>
-                <select
-                  name={key}
-                  value={formData[key]}
-                  onChange={(e) =>
-                    setFormData({ ...formData, [key]: e.target.value })
-                  }
-                  required
-                >
-                  <option value="">Select {label}</option>
-                  {options.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ))}
-          </div>
+      <div className="page-container">
+        <FormLayout
+          title="Fertilizer Recommendation"
+          description="Enter soil composition data for personalized recommendations"
+        >
+          <form onSubmit={handleSubmit} className="styled-form">
+            <div className="form-grid">
+              {[
+                { label: "Soil Temperature (°C)", key: "temperature" },
+                { label: "Soil Humidity (%)", key: "humidity" },
+                { label: "Soil Moisture (%)", key: "moisture" },
+                { label: "Amount of Nitrogen", key: "nitrogen" },
+                { label: "Amount of Phosphorus", key: "phosphorus" },
+                { label: "Amount of Potassium", key: "potassium" }
+              ].map(({ label, key }) => (
+                <div className="form-group" key={key}>
+                  <label>{label}</label>
+                  <input
+                    type="number"
+                    name={key}
+                    value={formData[key]}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [key]: e.target.value })
+                    }
+                    placeholder={`Enter ${label}`}
+                    required
+                  />
+                </div>
+              ))}
+            </div>
 
-          {error && <div className="error-message">{error}</div>}
+            <div className="form-grid">
+              {[
+                { label: "Soil Type", key: "soilType", options: soilTypes },
+                { label: "Crop Type", key: "cropType", options: cropTypes }
+              ].map(({ label, key, options }) => (
+                <div className="form-group" key={key}>
+                  <label>{label}</label>
+                  <select
+                    name={key}
+                    value={formData[key]}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [key]: e.target.value })
+                    }
+                    required
+                  >
+                    <option value="">Select {label}</option>
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
 
-          <button type="submit" className="primary-button" disabled={loading}>
-            {loading ? (
-              <>
-                <LoadingSpinner />
-                <span className="ms-2">Processing...</span>
-              </>
-            ) : (
-              'Get Recommendation'
-            )}
-          </button>
-        </form>
-      </FormLayout>
-    </div>
+            {error && <div className="error-message">{error}</div>}
+
+            <button type="submit" className="primary-button" disabled={loading}>
+              {loading ? (
+                <>
+                  <LoadingSpinner />
+                  <span className="ms-2">Processing...</span>
+                </>
+              ) : (
+                'Get Recommendation'
+              )}
+            </button>
+          </form>
+        </FormLayout>
+      </div>
+    </>
   );
 };
 

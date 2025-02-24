@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forumAPI } from '../../utils/api';
-import './CreatePost.css'; // Create a CSS file if needed
+import HeroHeader from '../../components/common/HeroHeader';  // Import HeroHeader
+import './CreatePost.css'; // Ensure your styles are here
 
 const CreatePost = () => {
   const [post, setPost] = useState({ title: '', content: '' });
@@ -31,34 +32,43 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="create-post-container">
-      <h1>Create New Post</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={post.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Content:</label>
-          <textarea
-            name="content"
-            value={post.content}
-            onChange={handleChange}
-            required
-          ></textarea>
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Posting...' : 'Post'}
-        </button>
-      </form>
-    </div>
+    <>
+      {/* HeroHeader with background image */}
+      <HeroHeader
+        title="Create a New Post"
+        subtitle="Share your thoughts, ask a question, or spark a conversation."
+        backgroundImage="/assets/head/forum.jpg"  // Path to image in public folder
+      />
+
+      <div className="create-post-container">
+        <h1>Create New Post</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Title:</label>
+            <input
+              type="text"
+              name="title"
+              value={post.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Content:</label>
+            <textarea
+              name="content"
+              value={post.content}
+              onChange={handleChange}
+              required
+            ></textarea>
+          </div>
+          {error && <p className="error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Posting...' : 'Post'}
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 

@@ -16,15 +16,21 @@ const PredictionsList = ({ predictions }) => {
     return acc;
   }, {});
 
-  // Render the predictions for a given type as a single line, comma-separated.
+  // Render the predictions for a given type as a single line, comma-separated,
+  // removing duplicates via a Set.
   const renderGroupForType = (type) => {
     if (!grouped[type] || grouped[type].length === 0) {
       return "No predictions";
     }
+    // Sort by date (newest first), then map to recommendation or prediction
     const items = grouped[type]
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .map(pred => type === 'Disease' ? pred.prediction : pred.recommendation);
-    return items.join(', ');
+
+    // Convert to a Set to remove duplicates, then back to array
+    const uniqueItems = [...new Set(items)];
+
+    return uniqueItems.join(', ');
   };
 
   const handleAddPrediction = (type) => {

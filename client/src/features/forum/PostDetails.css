@@ -1,28 +1,38 @@
-/* src/features/forum/PostDetails.css */
+/* client/src/features/forum/PostDetails.css */
 .post-details-container {
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
-    
-}
-
-.post-details {
-    padding-top: 50px; /* Adjust this based on the navbar height */
   }
-
-.reply-list {
+  
+  .post-details {
+    padding-top: 50px; /* Adjust based on navbar height */
+  }
+  
+  .reply-list {
     margin-top: 2rem;
-}
-
-.reply-item {
+  }
+  
+  .reply-item {
     background: #f8f9fa;
     padding: 1rem;
     border-radius: 6px;
     margin-bottom: 1rem;
-}
-
-.reply-author {
+    transition: background 0.3s ease;
+  }
+  
+  .reply-item:hover {
+    background: #f0f0f0;
+  }
+  
+  .reply-author {
     font-size: 0.9rem;
     color: #666;
     margin-top: 0.5rem;
-}
+  }
+  
+  .reply-meta {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.3rem;
+  }

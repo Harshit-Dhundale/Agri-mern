@@ -4,7 +4,12 @@
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.farm-list:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .farm-list h2 {
@@ -30,7 +35,18 @@
   color: #444;
 }
 
-/* Optional: Ensure buttons in this component have proper spacing */
+/* Ensure buttons in this component have proper spacing */
 .farm-list .btn {
   margin-top: 1rem;
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.farm-list .btn:hover {
+  background-color: #45a049;
 }

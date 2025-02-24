@@ -6,7 +6,7 @@ const HeroHeader = ({ title, subtitle, backgroundImage }) => {
   return (
     <header 
       className="hero-header" 
-      style={{ backgroundImage: 'url(${backgroundImage})' }}
+      style={{ backgroundImage: `url(${backgroundImage})`}}
     >
       <div className="hero-overlay">
         <h1>{title}</h1>

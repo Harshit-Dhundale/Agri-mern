@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { forumAPI } from "../../utils/api";
 import CommentForm from "../../components/common/CommentForm";
+import HeroHeader from "../../components/common/HeroHeader"; // Import the hero component
 import "./PostDetails.css";
 
 const PostDetails = () => {
@@ -68,90 +69,99 @@ const PostDetails = () => {
   if (!post) return <p>Loading...</p>;
 
   return (
-    <div className="post-details">
-      {editing ? (
-        <form onSubmit={handleEditSubmit} className="edit-post-form">
-          <div className="form-group">
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              value={editForm.title}
-              onChange={handleEditChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Content</label>
-            <textarea
-              name="content"
-              value={editForm.content}
-              onChange={handleEditChange}
-              required
-            ></textarea>
-          </div>
-          <div className="edit-buttons">
-            <button type="submit" className="btn btn-primary">
-              Save Changes
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setEditing(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
-        <>
-          <h1>{post.title}</h1>
-          <p>{post.content}</p>
-          <div className="post-meta">
-            <span>By {post.createdBy?.username || "Anonymous"}</span>
-          </div>
-          {currentUser &&
-            post.createdBy &&
-            currentUser._id.toString() ===
-              (typeof post.createdBy === "object"
-                ? post.createdBy._id.toString()
-                : post.createdBy.toString()) && (
-              <div className="post-actions">
-                <button
-                  onClick={handleEditToggle}
-                  className="btn btn-secondary"
-                >
-                  Edit Post
-                </button>
-                <button onClick={handleDeletePost} className="btn btn-danger">
-                  Delete Post
-                </button>
-              </div>
-            )}
-        </>
-      )}
+    <>
+      {/* Hero Header for open discussion */}
+      <HeroHeader
+        title="Open Discussion"
+        subtitle="Join the conversation and share your insights."
+        backgroundImage="/assets/head/forum.jpg"  // Ensure this image exists in your public folder.
+      />
 
-      <div className="replies-section">
-        <h3>Replies</h3>
-        {post.replies && post.replies.length > 0 ? (
-          post.replies.map((reply) => (
-            <div key={reply._id} className="reply-card">
-              <p>{reply.text}</p>
-              <p className="reply-meta">
-                <em>by {reply.createdBy?.username || "Anonymous"}</em>
-              </p>
+      <div className="post-details">
+        {editing ? (
+          <form onSubmit={handleEditSubmit} className="edit-post-form">
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                name="title"
+                value={editForm.title}
+                onChange={handleEditChange}
+                required
+              />
             </div>
-          ))
+            <div className="form-group">
+              <label>Content</label>
+              <textarea
+                name="content"
+                value={editForm.content}
+                onChange={handleEditChange}
+                required
+              ></textarea>
+            </div>
+            <div className="edit-buttons">
+              <button type="submit" className="btn btn-primary">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setEditing(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         ) : (
-          <p>No replies yet.</p>
+          <>
+            <h1>{post.title}</h1>
+            <p>{post.content}</p>
+            <div className="post-meta">
+              <span>By {post.createdBy?.username || "Anonymous"}</span>
+            </div>
+            {currentUser &&
+              post.createdBy &&
+              currentUser._id.toString() ===
+                (typeof post.createdBy === "object"
+                  ? post.createdBy._id.toString()
+                  : post.createdBy.toString()) && (
+                <div className="post-actions">
+                  <button
+                    onClick={handleEditToggle}
+                    className="btn btn-secondary"
+                  >
+                    Edit Post
+                  </button>
+                  <button onClick={handleDeletePost} className="btn btn-danger">
+                    Delete Post
+                  </button>
+                </div>
+              )}
+          </>
         )}
-      </div>
 
-      <CommentForm onSubmit={addReply} />
-      <button onClick={() => navigate("/forum")} className="btn btn-secondary">
-        Return to Forum
-      </button>
-    </div>
+        <div className="replies-section">
+          <h3>Replies</h3>
+          {post.replies && post.replies.length > 0 ? (
+            post.replies.map((reply) => (
+              <div key={reply._id} className="reply-card">
+                <p>{reply.text}</p>
+                <p className="reply-meta">
+                  <em>by {reply.createdBy?.username || "Anonymous"}</em>
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>No replies yet.</p>
+          )}
+        </div>
+
+        <CommentForm onSubmit={addReply} />
+        <button onClick={() => navigate("/forum")} className="btn btn-secondary">
+          Return to Forum
+        </button>
+      </div>
+    </>
   );
 };
 

@@ -1,31 +1,42 @@
-/* FarmCard.css */
+/* client/src/features/dashboard/FarmCard.css */
 .farm-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .farm-card h2 {
-    margin-bottom: 15px;
-    font-size: 1.6rem;
-    color: #333;
-  }
-  
-  .farm-display p {
-    margin: 8px 0;
-    color: #555;
-  }
-  
-  .farm-display button {
-    margin-top: 10px;
-  }
-  
-  .farm-edit {
-    margin-top: 10px;
-  }
-  
-  .farm-edit button {
-    margin-top: 10px;
-  }
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.farm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.farm-card h2 {
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.farm-display p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.farm-display button,
+.farm-edit button {
+  margin-top: 10px;
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.farm-display button:hover,
+.farm-edit button:hover {
+  background-color: #45a049;
+}

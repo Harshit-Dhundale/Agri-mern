@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { userAPI, farmAPI, cropAPI, fertilizerAPI, diseaseAPI, forumAPI } from '../../utils/api';
-// import ProfileCard from './ProfileCard';
 import FarmList from './FarmList';
 import PredictionsList from './PredictionsList';
 import ForumPostsList from './ForumPostsList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import HeroHeader from '../../components/common/HeroHeader';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -83,28 +83,37 @@ const Dashboard = () => {
   if (error) return <p className="dashboard-error">{error}</p>;
 
   return (
-    <div className="dashboard-container">
-      <h1>Welcome, {userData.username || userData.fullName}!</h1>
-      <p className="dashboard-welcome">
-        We’re glad to have you here. Explore our features and add your data to get the most out of our platform!
-      </p>
-      
-      {/* <div className="dashboard-section">
-        <ProfileCard userData={userData} onUpdate={setUserData} />
-      </div> */}
+    <>
+      {/* HeroHeader added with background image */}
+      <HeroHeader
+        title="Your Dashboard"
+        subtitle="Manage your farms, view predictions, and stay updated in one place."
+        backgroundImage="/assets/head/dash.jpg" // Path to image in public folder
+      />
 
-      <div className="dashboard-section">
-        <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />
-      </div>
+      <div className="dashboard-container">
+        <h1>Welcome, {userData.username || userData.fullName}!</h1>
+        <p className="dashboard-welcome">
+          We’re glad to have you here. Explore our features and add your data to get the most out of our platform!
+        </p>
+        
+        {/* <div className="dashboard-section">
+          <ProfileCard userData={userData} onUpdate={setUserData} />
+        </div> */}
 
-      <div className="dashboard-section">
-        <PredictionsList predictions={predictions} />
-      </div>
+        <div className="dashboard-section">
+          <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />
+        </div>
 
-      <div className="dashboard-section">
-        <ForumPostsList forumPosts={forumPosts} />
+        <div className="dashboard-section">
+          <PredictionsList predictions={predictions} />
+        </div>
+
+        <div className="dashboard-section">
+          <ForumPostsList forumPosts={forumPosts} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

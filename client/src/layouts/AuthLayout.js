@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import './AuthLayout.css';
 
 const AuthLayout = () => (
-  <div className="auth-layout" style={{ backgroundImage: 'url(/assets/farm-background.jpg)' }}>
+  <div className="auth-layout" style={{ backgroundImage: 'url(/assets/auth.jpg)' }}>
     <Navbar /> {/* Add the Navbar here */}
     <Outlet />
   </div>

@@ -1,4 +1,6 @@
+// client/src/features/contact/Contact.js
 import React, { useState } from 'react';
+import HeroHeader from '../../components/common/HeroHeader'; // Import the HeroHeader
 import './Contact.css';
 
 const Contact = () => {
@@ -12,7 +14,7 @@ const Contact = () => {
   const [feedback, setFeedback] = useState('');
 
   const handleChange = (e) => {
-    setForm({...form, [e.target.name]: e.target.value});
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -27,12 +29,7 @@ const Contact = () => {
       const data = await res.json();
       if (res.status === 201) {
         setFeedback('Thank you for reaching out! We will get back to you soon.');
-        setForm({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
+        setForm({ name: '', email: '', subject: '', message: '' });
       } else {
         setFeedback(data.message || 'Failed to send message.');
       }
@@ -45,13 +42,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-container">
-      <header className="contact-header">
-        <div className="header-overlay">
-          <h1>Contact Us</h1>
-          <p>We’d love to hear from you! Whether you have a question, suggestion, or partnership inquiry, please fill out the form below.</p>
-        </div>
-      </header>
+    <>
+      {/* Use the HeroHeader at the top, just like other pages */}
+      <HeroHeader
+        title="Contact Us"
+        subtitle="We’d love to hear from you! Whether you have a question, suggestion, or partnership inquiry, please fill out the form below."
+        backgroundImage="/assets/head/contact.jpg"
+      />
+
       <main className="contact-content">
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-row">
@@ -96,7 +94,7 @@ const Contact = () => {
               name="message" 
               value={form.message} 
               onChange={handleChange} 
-              required 
+              required
             ></textarea>
           </div>
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
@@ -104,6 +102,7 @@ const Contact = () => {
           </button>
           {feedback && <p className="feedback">{feedback}</p>}
         </form>
+        
         <div className="contact-info">
           <h2>Our Contact Info</h2>
           <p><strong>Email:</strong> support@farmiculture.com</p>
@@ -113,10 +112,11 @@ const Contact = () => {
           </p>
         </div>
       </main>
+
       <footer className="contact-footer">
         <p>&copy; 2025 FarmiCulture. All rights reserved.</p>
       </footer>
-    </div>
+    </>
   );
 };
 

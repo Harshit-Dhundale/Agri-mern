@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url('/public/assets/farm-background.jpg') no-repeat center center fixed;
+  background: url('/public/assets/auth.jpg') no-repeat center center fixed;
   background-size: cover;
   margin: 0;
   padding: 0;

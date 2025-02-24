@@ -4,6 +4,7 @@ import { forumAPI } from '../../utils/api';
 import Pagination from '../../components/common/Pagination';
 import { useAuth } from '../../context/AuthContext';
 import ForumPostCard from './ForumPostCard';
+import HeroHeader from '../../components/common/HeroHeader';
 import './Forum.css';
 
 const Forum = () => {
@@ -40,29 +41,37 @@ const Forum = () => {
   };
 
   return (
-    <div className="forum-container">
-      <h1>Community Forum</h1>
-      {/* You might want a separate page for creating posts */}
-      <button onClick={() => navigate('/create-post')} className="btn btn-primary">
-        Create New Post
-      </button>
-      <div className="post-list">
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <ForumPostCard
-              key={post._id}
-              post={post}
-              currentUser={currentUser}
-              onDelete={handleDeletePost}
-              onUpdate={updatePost}
-            />
-          ))
-        ) : (
-          <div className="no-posts">No posts available</div>
-        )}
+    <>
+      {/* Added HeroHeader component with background image */}
+      <HeroHeader
+        title="Community Forum"
+        subtitle="Share your experiences, ask questions, and learn from fellow farmers."
+        backgroundImage="/assets/head/forum.jpg" // Path to the image in public folder
+      />
+
+      <div className="forum-container">
+        <h1>Browse Latest Discussions</h1>
+        <button onClick={() => navigate('/create-post')} className="btn btn-primary">
+          Create New Post
+        </button>
+        <div className="post-list">
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <ForumPostCard
+                key={post._id}
+                post={post}
+                currentUser={currentUser}
+                onDelete={handleDeletePost}
+                onUpdate={updatePost}
+              />
+            ))
+          ) : (
+            <div className="no-posts">No posts available</div>
+          )}
+        </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-    </div>
+    </>
   );
 };
 

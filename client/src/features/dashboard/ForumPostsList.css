@@ -1,45 +1,61 @@
-/* ForumPostsList.css */
+/* client/src/features/dashboard/ForumPostsList.css */
 .forum-posts-list {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .forum-posts-list h2 {
-    margin-bottom: 15px;
-    font-size: 1.6rem;
-    color: #333;
-  }
-  
-  .forum-posts-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .forum-posts-list li {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-  }
-  
-  .forum-posts-list li:last-child {
-    border-bottom: none;
-  }
-  
-  .forum-posts-list li strong {
-    display: block;
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
-  .no-posts {
-    text-align: center;
-    color: #777;
-    margin-top: 10px;
-  }
-  
-  .no-posts button {
-    margin-top: 10px;
-  }
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.forum-posts-list:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.forum-posts-list h2 {
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.forum-posts-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.forum-posts-list li {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.forum-posts-list li:last-child {
+  border-bottom: none;
+}
+
+.forum-posts-list li strong {
+  display: block;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.no-posts {
+  text-align: center;
+  color: #777;
+  margin-top: 10px;
+}
+
+.no-posts button {
+  margin-top: 10px;
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.no-posts button:hover {
+  background-color: #45a049;
+}

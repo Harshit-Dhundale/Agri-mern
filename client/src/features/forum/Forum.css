@@ -1,48 +1,55 @@
-/* src/features/forum/Forum.css */
+/* client/src/features/forum/Forum.css */
 .forum-container {
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.post-list {
+  }
+  
+  .post-list {
     display: grid;
     gap: 1.5rem;
-}
-
-.post-card {
-    background: white;
+  }
+  
+  .post-card {
+    background: #fff;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.post-content {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .post-content {
     color: #666;
     margin: 1rem 0;
-}
-
-.post-meta {
+  }
+  
+  .post-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
     font-size: 0.9rem;
     color: #888;
-}
-
-.view-post-link {
+  }
+  
+  .view-post-link {
     color: #4CAF50;
     text-decoration: none;
     font-weight: 500;
-}
-
-.view-post-link:hover {
+    transition: text-decoration 0.3s ease;
+  }
+  
+  .view-post-link:hover {
     text-decoration: underline;
-}
-
-.no-posts {
+  }
+  
+  .no-posts {
     text-align: center;
     color: #666;
     padding: 2rem;
-}
+  }

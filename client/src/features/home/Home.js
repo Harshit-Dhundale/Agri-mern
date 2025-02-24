@@ -14,25 +14,25 @@ const Home = () => {
   const features = [
     {
       title: "Crop Recommendation",
-      image: "/assets/crop.png",
+      image: "/assets/home/crop.png",
       description: "Get personalized crop suggestions based on your soil conditions.",
       path: "/crop-recommendation"
     },
     {
       title: "Fertilizer Recommendation",
-      image: "/assets/fertilizer.png",
+      image: "/assets/home/fertilizer.png",
       description: "Receive custom fertilizer solutions for optimal yield.",
       path: "/fertilizer-recommendation"
     },
     {
       title: "Disease Detection",
-      image: "/assets/disease.png",
+      image: "/assets/home/disease.png",
       description: "Identify plant diseases with AI-powered image analysis.",
       path: "/disease-detection"
     },
     {
       title: "Community Forum",
-      image: "/assets/forum.png",
+      image: "/assets/home/forum.png",
       description: "Connect and share with the farming community.",
       path: "/forum"
     }
