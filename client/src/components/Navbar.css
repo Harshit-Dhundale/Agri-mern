@@ -153,22 +153,35 @@
   color: #fff;
 }
 
-/* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 60px;
+    top: 60px; /* Adjust based on your navbar height */
     left: 0;
     right: 0;
     background-color: #fff;
-    padding: 1rem;
+    padding: 1rem 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    align-items: center;  /* Center the items */
+    z-index: 1000;
   }
 
   .nav-links.active {
     display: flex;
+  }
+
+  .nav-item {
+    margin: 0.5rem 0;
+    width: 100%; /* Make the link area full-width for easier tapping */
+    text-align: center;
+  }
+
+  .nav-item a {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 0;
   }
 
   .mobile-menu-toggle {

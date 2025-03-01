@@ -1,11 +1,10 @@
-/* client/src/features/dashboard/FarmCard.css */
+/* FarmCard.css */
 .farm-card {
-  background-color: #fff;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 600px; /* Adjust based on your design */
+  margin: 0 auto;
   padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .farm-card:hover {
@@ -33,7 +32,9 @@
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
+  display: inline-block;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .farm-display button:hover,

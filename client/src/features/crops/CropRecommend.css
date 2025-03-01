@@ -12,7 +12,7 @@
 }
 
 .secondary-button {
-  background: #3498db;
+  background: #2ecc71; /* Changed from blue to green */
   color: white;
   padding: 12px 24px;
   border: none;
@@ -20,6 +20,11 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
+.secondary-button:hover {
+  background: #27ae60; /* Slightly darker green on hover */
+}
+
 
 .result-card {
   background: white;

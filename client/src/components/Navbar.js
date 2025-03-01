@@ -59,12 +59,10 @@ const Navbar = () => {
         <li className="nav-item">
           <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>Contact Us</Link>
         </li>
-        <li className="nav-item">
-          <Link to="/forum" className={location.pathname === '/forum' ? 'active' : ''}>Forum</Link>
-        </li>
 
         {currentUser && (
           <>
+          
             <li className="nav-item">
               <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>
             </li>
@@ -90,6 +88,9 @@ const Navbar = () => {
                 </div>
               )}
             </li>
+            <li className="nav-item">
+          <Link to="/forum" className={location.pathname === '/forum' ? 'active' : ''}>Forum</Link>
+        </li>
           </>
         )}
 

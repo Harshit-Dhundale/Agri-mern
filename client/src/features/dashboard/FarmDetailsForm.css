@@ -1,86 +1,64 @@
-/* client/src/features/dashboard/FarmDetailsForm.css */
-.farm-details-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease;
+.farm-details-form form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px; /* Reduced from 15px */
+  align-items: start;
 }
 
-.farm-details-form:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.farm-details-form .form-group {
+  margin-bottom: 8px; /* Added for vertical spacing control */
 }
 
 .farm-details-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #2c3e50;
+  margin-bottom: 4px; /* Reduced from 5px */
+  font-size: 0.9rem;
+  color: #444;
 }
 
 .farm-details-form input,
 .farm-details-form select,
 .farm-details-form textarea {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
+  padding: 6px 8px; /* Reduced vertical padding */
+  font-size: 0.95rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: #333;
-  transition: border-color 0.3s ease;
 }
 
-.farm-details-form input:focus,
-.farm-details-form select:focus,
-.farm-details-form textarea:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+.farm-details-form textarea {
+  min-height: 70px; /* Reduced from 80px */
+}
+
+.farm-details-form {
+  position: relative;
+  padding-bottom: 50px; /* Space for the button */
 }
 
 .farm-details-form button {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+  padding: 12px;
+  margin-top: 0;
   font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: none;
+  background-color: #4CAF50;
+  transition: background-color 0.2s ease;
 }
 
 .farm-details-form button:hover {
   background-color: #45a049;
 }
 
-.farm-details-form button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+/* Adjust form grid to accommodate bottom button */
+.farm-details-form form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding-bottom: 20px; /* Prevent content overlap */
 }
 
-.farm-details-form p {
-  margin-top: 1rem;
-  color: #4CAF50;
-  font-weight: 600;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .farm-details-form {
-    padding: 1rem;
-  }
-
-  .farm-details-form input,
-  .farm-details-form select,
-  .farm-details-form textarea {
-    padding: 0.5rem;
-  }
-
-  .farm-details-form button {
-    width: 100%;
-    padding: 0.75rem;
-  }
+/* Reduce space between form sections */
+.modal-body {
+  padding: 1rem 1.5rem; /* Reduced from 1.5rem */
 }

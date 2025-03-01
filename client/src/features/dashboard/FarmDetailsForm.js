@@ -6,10 +6,10 @@ import './FarmDetailsForm.css';
 
 const FarmDetailsForm = ({ farmData, onUpdate, userId }) => {
   const [formData, setFormData] = useState({
-    name: farmData?.name || '', // new field for farm name
+    name: farmData?.name || '',
     location: farmData?.location || '',
     size: farmData?.size || '',
-    crops: farmData?.crops ? farmData.crops.join(', ') : '', // Comma-separated list
+    crops: farmData?.crops ? farmData.crops.join(', ') : '',
     farmType: farmData?.farmType || '',
     description: farmData?.description || '',
   });
@@ -107,7 +107,7 @@ const FarmDetailsForm = ({ farmData, onUpdate, userId }) => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="form-group full-width">
           <label>Description</label>
           <textarea
             name="description"

@@ -30,11 +30,9 @@ const Dashboard = () => {
 
     const loadFarms = async () => {
       try {
-        // Expecting an array of farms from your endpoint
         const res = await farmAPI.get(currentUser._id);
         setFarms(res.data);
       } catch (err) {
-        // If no farms exist, default to an empty array.
         setFarms([]);
       }
     };
@@ -46,12 +44,10 @@ const Dashboard = () => {
           fertilizerAPI.getUserPredictions(currentUser._id),
           diseaseAPI.getUserPredictions(currentUser._id),
         ]);
-        // Tag each result with its type
         const cropPreds = cropRes.data.map(item => ({ ...item, type: 'Crop' }));
         const fertPreds = fertRes.data.map(item => ({ ...item, type: 'Fertilizer' }));
         const diseasePreds = diseaseRes.data.map(item => ({ ...item, type: 'Disease' }));
         const combined = [...cropPreds, ...fertPreds, ...diseasePreds];
-        // Optional: sort by date (if each item has a createdAt field)
         combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setPredictions(combined);
       } catch (err) {
@@ -61,7 +57,6 @@ const Dashboard = () => {
 
     const loadForumPosts = async () => {
       try {
-        // Ensure your forumAPI.getUserPosts endpoint is implemented
         const res = await forumAPI.getUserPosts(currentUser._id);
         setForumPosts(res.data);
       } catch (err) {
@@ -84,31 +79,28 @@ const Dashboard = () => {
 
   return (
     <>
-      {/* HeroHeader added with background image */}
       <HeroHeader
         title="Your Dashboard"
         subtitle="Manage your farms, view predictions, and stay updated in one place."
-        backgroundImage="/assets/head/dash.jpg" // Path to image in public folder
+        backgroundImage="/assets/head/dash.jpg"
       />
-
       <div className="dashboard-container">
         <h1>Welcome, {userData.username || userData.fullName}!</h1>
         <p className="dashboard-welcome">
           We’re glad to have you here. Explore our features and add your data to get the most out of our platform!
         </p>
         
-        {/* <div className="dashboard-section">
-          <ProfileCard userData={userData} onUpdate={setUserData} />
-        </div> */}
-
-        <div className="dashboard-section">
-          <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />
+        {/* Two-column grid for Farms and Predictions */}
+        <div className="dashboard-top-grid">
+          <div className="dashboard-section">
+            <FarmList farms={farms} setFarms={setFarms} userId={currentUser._id} />
+          </div>
+          <div className="dashboard-section">
+            <PredictionsList predictions={predictions} />
+          </div>
         </div>
 
-        <div className="dashboard-section">
-          <PredictionsList predictions={predictions} />
-        </div>
-
+        {/* Forum Posts Section – full width */}
         <div className="dashboard-section">
           <ForumPostsList forumPosts={forumPosts} />
         </div>

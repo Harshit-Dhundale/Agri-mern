@@ -1,4 +1,4 @@
-/* Ensure form fits within the viewport */
+/* Ensure form fits within the viewport on desktop */
 .register-container {
   min-height: 100vh;
   display: flex;
@@ -9,16 +9,17 @@
   padding-bottom: 1rem;
   box-sizing: border-box;
   height: 100vh;  /* Full viewport height */
-  overflow: hidden; /* Disable scrolling on this page */
+  overflow: hidden; /* Disable scrolling on larger screens */
 }
 
-/* Adjust form height */
-.register-form {
-  overflow-y: auto; /* Allow internal scrolling if needed */
-  max-height: calc(100vh - 6rem); /* Maintain padding space */
+/* Allow vertical scrolling on mobile devices */
+@media (max-width: 600px) {
+  .register-container {
+    overflow-y: auto;
+  }
 }
 
-/* Adjusted Registration Form */
+/* Adjust form height to fit inside the container */
 .register-form {
   background: rgba(255, 255, 255, 0.95);
   padding: 15px 25px;
@@ -30,21 +31,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: hidden; /* Internal scroll if content overflows */
+  /* On desktop, we can disable internal scrolling if content fits */
+  overflow-y: hidden;
+  max-height: calc(100vh - 6rem); /* leave some room for padding */
 }
 
-/* Reduce Space Above Brand Name */
+/* Allow internal scrolling on the form on mobile if necessary */
+@media (max-width: 600px) {
+  .register-form {
+    overflow-y: auto;
+  }
+}
+
+/* Other unchanged styles for inputs, grid, etc. */
 .brand-title {
   margin-top: 5px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
-/* Reduce Space Below Form */
 .register-form h2 {
   margin-bottom: 10px;
 }
 
-/* Three-Column Form Layout */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -52,12 +61,10 @@
   width: 100%;
 }
 
-/* Full Width Fields */
 .full-width {
   grid-column: span 3;
 }
 
-/* Form Inputs */
 .register-form input,
 .register-form select {
   width: 100%;
@@ -75,7 +82,6 @@
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
-/* Button Styling */
 .register-form .btn {
   width: 100%;
   padding: 12px;
@@ -93,7 +99,6 @@
   background: linear-gradient(135deg, #388e3c, #2e7d32);
 }
 
-/* Password Strength Bar */
 .password-strength {
   height: 6px;
   width: 100%;
@@ -112,7 +117,6 @@
   transition: width 0.3s ease-in-out;
 }
 
-/* Error Messages */
 .error {
   color: red;
   font-size: 13px;
@@ -120,7 +124,6 @@
   text-align: left;
 }
 
-/* Link Styling */
 .link {
   display: block;
   margin-top: 15px;

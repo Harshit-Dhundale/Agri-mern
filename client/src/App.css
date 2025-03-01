@@ -42,3 +42,17 @@ html, body {
     transform: rotate(360deg);
   }
 }
+
+/* This ensures proper slide dimensions */
+.slick-slide {
+  height: auto !important; /* Remove fixed heights */
+}
+
+.slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.slick-slide > div {
+  height: 100%;
+}

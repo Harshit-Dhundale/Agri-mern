@@ -1,12 +1,15 @@
 // client/src/features/dashboard/PredictionsList.js
 import React from 'react';
+import Slider from "react-slick";
 import { useNavigate } from 'react-router-dom';
 import './PredictionsList.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const PredictionsList = ({ predictions }) => {
   const navigate = useNavigate();
 
-  // Group predictions by type (assumed to be 'Crop', 'Fertilizer', 'Disease')
+  // Group predictions by type (Crop, Fertilizer, Disease)
   const grouped = predictions.reduce((acc, pred) => {
     const type = pred.type;
     if (!acc[type]) {
@@ -16,21 +19,46 @@ const PredictionsList = ({ predictions }) => {
     return acc;
   }, {});
 
-  // Render the predictions for a given type as a single line, comma-separated,
-  // removing duplicates via a Set.
-  const renderGroupForType = (type) => {
-    if (!grouped[type] || grouped[type].length === 0) {
-      return "No predictions";
+  // Render a grid of images with captions for a given type
+  const renderImageGrid = (type) => {
+    const group = grouped[type];
+    if (!group || group.length === 0) return <p>No predictions</p>;
+
+    // Deduplicate: for Disease use imageUrl; for Crop and Fertilizer use recommendation
+    let uniquePredictions = [];
+    if (type === 'Disease') {
+      uniquePredictions = Array.from(new Map(group.map(pred => [pred.imageUrl, pred])).values());
+    } else {
+      uniquePredictions = Array.from(new Map(group.map(pred => [pred.recommendation, pred])).values());
     }
-    // Sort by date (newest first), then map to recommendation or prediction
-    const items = grouped[type]
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .map(pred => type === 'Disease' ? pred.prediction : pred.recommendation);
 
-    // Convert to a Set to remove duplicates, then back to array
-    const uniqueItems = [...new Set(items)];
+    return (
+      <div className="prediction-grid">
+        {uniquePredictions.map((pred, index) => {
+          let imgSrc = "";
+          let label = "";
+          if (type === 'Disease') {
+            imgSrc = "/" + pred.imageUrl.replace(/\\/g, "/");
+            label = `${pred.crop.charAt(0).toUpperCase() + pred.crop.slice(1)} - ${pred.prediction}`;
 
-    return uniqueItems.join(', ');
+          } else if (type === 'Crop') {
+            const rec = pred.recommendation.toLowerCase().replace(/\s+/g, '-');
+            imgSrc = `/assets/crops/${rec}.jpg`;
+            label = pred.recommendation;
+          } else if (type === 'Fertilizer') {
+            const rec = pred.recommendation.toLowerCase().replace(/\s+/g, '-');
+            imgSrc = `/assets/fertilizers/${rec}.jpg`;
+            label = pred.recommendation;
+          }
+          return (
+            <div key={index} className="grid-item">
+              <img src={imgSrc} alt={`${type} prediction`} />
+              <div className="image-label">{label}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   const handleAddPrediction = (type) => {
@@ -43,55 +71,37 @@ const PredictionsList = ({ predictions }) => {
     }
   };
 
+  // Slider settings for the carousel display
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+  };
+
   return (
-    <div className="predictions-list card">
+    <div className="predictions-carousel card">
       <h2>Your Predictions</h2>
-      {predictions.length > 0 ? (
-        <>
-          {grouped.Crop && (
-            <div className="prediction-group">
-              <h3>Crop Predictions:</h3>
-              <p>{renderGroupForType('Crop')}</p>
-              <button className="btn btn-link" onClick={() => handleAddPrediction('Crop')}>
-                Add Crop Prediction
-              </button>
+      <Slider {...sliderSettings}>
+        {['Crop', 'Fertilizer', 'Disease'].map((type) => (
+          <div key={type} className="prediction-card">
+            <h3>{type} Predictions:</h3>
+            <div className="prediction-content">
+              {renderImageGrid(type)}
             </div>
-          )}
-          {grouped.Fertilizer && (
-            <div className="prediction-group">
-              <h3>Fertilizer Predictions:</h3>
-              <p>{renderGroupForType('Fertilizer')}</p>
-              <button className="btn btn-link" onClick={() => handleAddPrediction('Fertilizer')}>
-                Add Fertilizer Prediction
-              </button>
-            </div>
-          )}
-          {grouped.Disease && (
-            <div className="prediction-group">
-              <h3>Disease Predictions:</h3>
-              <p>{renderGroupForType('Disease')}</p>
-              <button className="btn btn-link" onClick={() => handleAddPrediction('Disease')}>
-                Add Disease Detection
-              </button>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="no-predictions">
-          <p>You haven't made any predictions yet. Why not try one of our prediction tools?</p>
-          <div className="prediction-buttons">
-            <button className="btn btn-primary" onClick={() => handleAddPrediction('Crop')}>
-              Crop Prediction
-            </button>
-            <button className="btn btn-primary" onClick={() => handleAddPrediction('Fertilizer')}>
-              Fertilizer Prediction
-            </button>
-            <button className="btn btn-primary" onClick={() => handleAddPrediction('Disease')}>
-              Disease Detection
+            <button 
+              className="prediction-button" 
+              onClick={() => handleAddPrediction(type)}
+            >
+              {type === 'Disease' ? 'Add Disease Detection' : `Add ${type} Prediction`}
             </button>
           </div>
-        </div>
-      )}
+        ))}
+      </Slider>
     </div>
   );
 };

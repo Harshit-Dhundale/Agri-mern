@@ -27,6 +27,7 @@
     "querystring-es3": "^0.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.5",
     "react-scripts": "5.0.1",

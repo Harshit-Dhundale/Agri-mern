@@ -6,6 +6,7 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease;
+  overflow: hidden; /* Prevent unwanted horizontal scroll */
 }
 
 .farm-list:hover {
@@ -35,7 +36,6 @@
   color: #444;
 }
 
-/* Ensure buttons in this component have proper spacing */
 .farm-list .btn {
   margin-top: 1rem;
   background-color: #4CAF50;
@@ -49,4 +49,51 @@
 
 .farm-list .btn:hover {
   background-color: #45a049;
+}
+
+/* Slick slider overrides */
+.slick-dots {
+  bottom: -15px;
+}
+
+.slick-prev:before, 
+.slick-next:before {
+  color: #4CAF50;
+  font-size: 20px;
+}
+
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slick-slider {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.farm-slider-item {
+  padding: 0 10px;
+  max-width: 100%;
+}
+
+/* FarmList.css */
+.slick-slide > div {
+  padding: 0 10px; /* Add spacing between slides */
+}
+
+.slick-list {
+  margin: 0 -10px; /* Compensate for slide padding */
+}
+
+/* Make cards take full width of slide */
+.farm-card {
+  width: 100% !important;
+  max-width: 600px; /* Adjust max width as needed */
+  margin: 0 auto;
+}
+
+.add-farm-button {
+  position: relative;
+  top: 10px;  /* Moves the button down */
 }
